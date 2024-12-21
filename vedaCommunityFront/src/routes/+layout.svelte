@@ -1,5 +1,6 @@
     
     <script lang="ts">
+    let { children } = $props();
       // 외부 클릭 시 Drawer 닫기
      import { onMount, onDestroy } from 'svelte';
      import Drawer, {
@@ -132,6 +133,14 @@
     justify-content: center;
     font-size: 25px;
   }
+  
+  :global(.nickname){
+    font-family: 'Courier New', Courier, monospace;
+  }
+  :global(.mdc-drawer__header){
+    padding-top: 5px;
+
+  }
    </style>
 
 
@@ -162,11 +171,14 @@
 
     <Drawer variant="modal" fixed={false} bind:open>
       <Header>
-        <div> 000</div>
+        <Title class="nickname">닉네임 위치</Title>
+
       </Header>
+
+      <Separator />
       <Content>
         <List>
-          <Item>
+          <Item href="/hello">
            자유게시판
           </Item>
 
@@ -177,9 +189,8 @@
     </Drawer>
 
     <div>
+      {@render children()}
       this is main content
-
-
         <Button>
           Settings
         </Button>
