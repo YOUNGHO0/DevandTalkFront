@@ -226,10 +226,6 @@
 
     <div>
       {@render children()}
-      this is main content
-        <Button>
-          Settings
-        </Button>
     </div>
   
 
