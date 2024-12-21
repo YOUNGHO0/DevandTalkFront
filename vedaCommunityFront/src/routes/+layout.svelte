@@ -41,6 +41,7 @@
   }
 
   onMount(() => {
+      checkUserStatus();
     // 클라이언트에서만 실행되도록 이벤트 리스너 추가
     if (typeof window !== 'undefined') {
       document.addEventListener('mousedown', handleOutsideClick);
@@ -52,14 +53,46 @@
       document.removeEventListener('mousedown', handleOutsideClick);
     }
   });
+
+
+
+    const apiUrl = import.meta.env.VITE_API_URL;
+
+    // 모든 페이지에서 실행할 로직
+    async function checkUserStatus() {
+        try {
+            const apiResponse = await fetch(`${apiUrl}/api/v1/user`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include', // 쿠키를 포함시켜 요청
+            });
+            console.log(apiResponse.status)
+            console.log(await apiResponse.text())
+            console.log(window.location.pathname)
+            if (apiResponse.status === 200) {
+                console.log('200 received');
+            } else if (apiResponse.status === 401) {
+                console.log(window.location.pathname)
+                if (window.location.pathname !== '/login') {
+                    window.location.href = '/login';
+                }
+            } else if (apiResponse.status === 403) {
+                if (window.location.pathname !== '/temp') {
+                    window.location.href = '/temp';
+                }
+            }
+        } catch (error) {
+            console.log('Error occurred:', error);
+        }
+    }
    </script>
    
    <style>
      /* These classes are only needed because the
        drawer is in a container on the page. */
-
-
-       :global(.mdc-top-app-bar) {
+     :global(.mdc-top-app-bar) {
     margin: 0; /* 기본 마진을 없애고 */
     padding: 0; /* 필요시 패딩도 없애기 */
   }
