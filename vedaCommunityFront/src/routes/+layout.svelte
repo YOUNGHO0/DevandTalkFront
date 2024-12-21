@@ -32,9 +32,12 @@
 
    // 클라이언트 측에서만 실행되도록 보장
    function handleOutsideClick(event: MouseEvent) {
-    if (!event.target.closest('.drawer-container')) {
-      open = false;
-    }
+       const target = event.target as HTMLElement | null;
+
+       // target이 null이 아니고 '.drawer-container'가 포함되지 않으면 open을 false로 설정
+       if (target && !target.closest('.drawer-container')) {
+           open = false;
+       }
   }
 
   onMount(() => {
