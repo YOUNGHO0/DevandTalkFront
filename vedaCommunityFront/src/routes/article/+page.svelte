@@ -62,6 +62,7 @@
     };
 
     let currentPage = 0;
+    let startPage = 0; // 현재 표시되는 페이지네이션의 시작 페이지
 
     // 페이지 데이터 로드 함수
     async function loadArticles(page: number) {
@@ -76,6 +77,10 @@
             const data = await apiResponse.json();
             articles = data; // 받은 데이터를 articles에 저장
             currentPage = page; // 현재 페이지 설정
+
+            // 페이지네이션의 시작 페이지를 갱신
+            const newStartPage = Math.floor(page / 5) * 5;
+            startPage = newStartPage;
         } catch (e) {
             console.error("오류 발생:", e.message);
             errorMessage = "게시물을 불러오는 데 실패했습니다.";
@@ -83,7 +88,7 @@
     }
 
     onMount(() => {
-        loadArticles(0); // 페이지 로드 시 1페이지 데이터를 불러옴
+        loadArticles(0); // 페이지 로드 시 첫 페이지 데이터를 불러옴
     });
 
     function formatDate(dateString: string) {
@@ -131,7 +136,6 @@
 {#if errorMessage}
     <div class="error">{errorMessage}</div> <!-- 오류가 있을 경우 표시 -->
 {:else}
-    {console.log(articles.content)}
     <div class="articles" style="margin: 10px">
         <h2 style="margin: 15px">자유게시판</h2>
         {#each articles.content as article}
@@ -152,18 +156,40 @@
 
         <!-- 페이지네이션 -->
         <div class="pagination">
+            <!-- 첫 페이지 이동 -->
             <button on:click={() => goToPage(0)} disabled={articles.first}>첫 페이지</button>
-            <button on:click={() => goToPage(currentPage - 1)} disabled={articles.first}>이전</button>
-            {#each Array(articles.totalPages).fill(0) as _, index}
-                <button
-                        on:click={() => goToPage(index)}
-                        class={index === currentPage ? "active" : ""}
-                >
-                    {index + 1}
-                </button>
+            <!-- 이전 페이지 목록으로 이동 -->
+            <button
+                    on:click={() => (startPage > 0 ? goToPage(startPage - 1) : null)}
+                    disabled={startPage === 0}
+            >
+                이전
+            </button>
+            <!-- 현재 페이지 그룹 내의 버튼들 -->
+            {#each Array(5).fill(0) as _, index (startPage + index)}
+                {#if startPage + index < articles.totalPages}
+                    <button
+                            on:click={() => goToPage(startPage + index)}
+                            class={startPage + index === currentPage ? "active" : ""}
+                    >
+                        {startPage + index + 1}
+                    </button>
+                {/if}
             {/each}
-            <button on:click={() => goToPage(currentPage + 1)} disabled={articles.last}>다음</button>
-            <button on:click={() => goToPage(articles.totalPages - 1)} disabled={articles.last}>마지막 페이지</button>
+            <!-- 다음 페이지 목록으로 이동 -->
+            <button
+                    on:click={() => (startPage + 5 < articles.totalPages ? goToPage(startPage + 5) : null)}
+                    disabled={startPage + 5 >= articles.totalPages}
+            >
+                다음
+            </button>
+            <!-- 마지막 페이지 이동 -->
+            <button
+                    on:click={() => goToPage(articles.totalPages - 1)}
+                    disabled={articles.last}
+            >
+                마지막 페이지
+            </button>
         </div>
     </div>
 {/if}
