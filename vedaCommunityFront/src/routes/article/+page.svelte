@@ -1,5 +1,6 @@
 <script lang="ts">
     import { onMount } from "svelte";
+    import { goto } from '$app/navigation'; // SvelteKit의 goto 함수 사용
     const apiUrl = import.meta.env.VITE_API_URL;
 
     interface Author {
@@ -22,6 +23,7 @@
     }
 
     interface Article {
+        id : bigint
         title: string;
         content: string;
         author: Author;
@@ -99,6 +101,9 @@
     function goToPage(page: number) {
         loadArticles(page);
     }
+    function navigateToArticle(id:bigint) {
+        goto(`/article/${id}`); // SvelteKit의 라우팅으로 이동
+    }
 </script>
 
 <style>
@@ -139,7 +144,7 @@
     <div class="articles" style="margin: 10px">
         <h2 style="margin: 15px">자유게시판</h2>
         {#each articles.content as article}
-            <div class="article" style="display: flex; padding: 12px">
+            <div onclick={() => navigateToArticle(article.id)}  class="article" style="display: flex; padding: 12px">
                 <div style="font-size: 12px; justify-content: center; text-align: center">
                     {formatDate(article.createdDate)}
                 </div>
@@ -157,10 +162,10 @@
         <!-- 페이지네이션 -->
         <div class="pagination">
             <!-- 첫 페이지 이동 -->
-            <button on:click={() => goToPage(0)} disabled={articles.first}>첫 페이지</button>
+            <button onclick={() => goToPage(0)} disabled={articles.first}>첫 페이지</button>
             <!-- 이전 페이지 목록으로 이동 -->
             <button
-                    on:click={() => (startPage > 0 ? goToPage(startPage - 1) : null)}
+                    onclick={() => (startPage > 0 ? goToPage(startPage - 1) : null)}
                     disabled={startPage === 0}
             >
                 이전
@@ -169,7 +174,7 @@
             {#each Array(5).fill(0) as _, index (startPage + index)}
                 {#if startPage + index < articles.totalPages}
                     <button
-                            on:click={() => goToPage(startPage + index)}
+                            onclick={() => goToPage(startPage + index)}
                             class={startPage + index === currentPage ? "active" : ""}
                     >
                         {startPage + index + 1}
@@ -178,14 +183,14 @@
             {/each}
             <!-- 다음 페이지 목록으로 이동 -->
             <button
-                    on:click={() => (startPage + 5 < articles.totalPages ? goToPage(startPage + 5) : null)}
+                    onclick={() => (startPage + 5 < articles.totalPages ? goToPage(startPage + 5) : null)}
                     disabled={startPage + 5 >= articles.totalPages}
             >
                 다음
             </button>
             <!-- 마지막 페이지 이동 -->
             <button
-                    on:click={() => goToPage(articles.totalPages - 1)}
+                    onclick={() => goToPage(articles.totalPages - 1)}
                     disabled={articles.last}
             >
                 마지막 페이지
