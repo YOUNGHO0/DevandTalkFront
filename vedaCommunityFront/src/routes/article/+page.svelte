@@ -1,13 +1,12 @@
-
 <script lang="ts">
-    import {onMount} from "svelte";
+    import { onMount } from "svelte";
     const apiUrl = import.meta.env.VITE_API_URL;
 
-    interface author{
-        nickname : string;
-        vedaOrder : bigint;
+    interface Author {
+        nickname: string;
+        vedaOrder: bigint;
     }
-    // Pageable 객체 타입 정의
+
     interface Pageable {
         pageNumber: number;
         pageSize: number;
@@ -16,7 +15,6 @@
         sort: Sort;
     }
 
-    // Sort 객체 타입 정의
     interface Sort {
         empty: boolean;
         unsorted: boolean;
@@ -26,32 +24,32 @@
     interface Article {
         title: string;
         content: string;
-        author : author;
+        author: Author;
         createdDate: string;
     }
 
     interface ArticleResponse {
-        content: Article[];  // 실제 기사 내용 배열
-        pageable: Pageable;   // 페이지 정보
-        totalElements: number;  // 전체 아이템 수
-        totalPages: number;     // 전체 페이지 수
-        size: number;           // 페이지 크기
-        number: number;         // 현재 페이지 번호
-        numberOfElements: number;  // 현재 페이지의 아이템 수
-        first: boolean;          // 첫 페이지 여부
-        last: boolean;           // 마지막 페이지 여부
-        empty: boolean;          // 내용이 비어있는지 여부
+        content: Article[];
+        pageable: Pageable;
+        totalElements: number;
+        totalPages: number;
+        size: number;
+        number: number;
+        numberOfElements: number;
+        first: boolean;
+        last: boolean;
+        empty: boolean;
     }
 
-    let errorMessage = ""; // 오류 메시지
-    let articles: ArticleResponse  = {  // 초기값을 빈 객체로 할당
+    let errorMessage = "";
+    let articles: ArticleResponse = {
         content: [],
         pageable: {
             pageNumber: 0,
             pageSize: 20,
             offset: 0,
             unpaged: false,
-            sort: { empty: true, unsorted: true, sorted: false }
+            sort: { empty: true, unsorted: true, sorted: false },
         },
         totalElements: 0,
         totalPages: 1,
@@ -60,66 +58,111 @@
         numberOfElements: 0,
         first: true,
         last: true,
-        empty: true
-    };  // articles의 타입을 명시적으로 지정
+        empty: true,
+    };
 
-    onMount(async () => {
+    let currentPage = 0;
+
+    // 페이지 데이터 로드 함수
+    async function loadArticles(page: number) {
         try {
-            const apiResponse = await fetch(`${apiUrl}/api/v1/article/list`, {
-                method: 'GET',
+            const apiResponse = await fetch(`${apiUrl}/api/v1/article/list?page=${page}&size=20`, {
+                method: "GET",
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json",
                 },
-                credentials: 'include', // 쿠키를 포함시켜 요청
+                credentials: "include", // 쿠키를 포함시켜 요청
             });
             const data = await apiResponse.json();
-            console.log(data)
             articles = data; // 받은 데이터를 articles에 저장
-
+            currentPage = page; // 현재 페이지 설정
         } catch (e) {
-            console.error("오류 발생:", e.message);  // 오류 메시지 출력
-            console.log("오류 발생")
+            console.error("오류 발생:", e.message);
+            errorMessage = "게시물을 불러오는 데 실패했습니다.";
         }
+    }
 
-    })
+    onMount(() => {
+        loadArticles(0); // 페이지 로드 시 1페이지 데이터를 불러옴
+    });
 
-    function formatDate(dateString:string) {
-        return new Date(dateString).toLocaleDateString('ko-KR');
+    function formatDate(dateString: string) {
+        return new Date(dateString).toLocaleDateString("ko-KR");
+    }
+
+    // 페이지 변경 함수
+    function goToPage(page: number) {
+        loadArticles(page);
     }
 </script>
-
 
 <style>
     .article {
         margin: 10px;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-        transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+        transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .active {
+        background-color: #007bff;
+        color: white;
+    }
+
+    button {
+        padding: 5px;
+        margin: 2px;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+        cursor: pointer;
+    }
+
+    button:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
     }
 </style>
-
 
 {#if errorMessage}
     <div class="error">{errorMessage}</div> <!-- 오류가 있을 경우 표시 -->
 {:else}
     <div class="articles" style="margin: 10px">
-        <h2 style="margin: 15px"> 자유게시판</h2>
+        <h2 style="margin: 15px">자유게시판</h2>
         {#each articles.content as article}
             <div class="article" style="display: flex; padding: 12px">
-                <div style="font-size: 12px; justify-content: center; text-align: center">{formatDate(article.createdDate)}</div>
-                <div style="font-size: 12px; padding-left: 20px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 150px;">
+                <div style="font-size: 12px; justify-content: center; text-align: center">
+                    {formatDate(article.createdDate)}
+                </div>
+                <div
+                        style="font-size: 12px; padding-left: 20px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 150px;"
+                >
                     {article.title}
                 </div>
-                <div style="margin-left: auto; font-size: 11px">{article.author.vedaOrder}기 {article.author.nickname}</div>
+                <div style="margin-left: auto; font-size: 11px">
+                    {article.author.vedaOrder}기 {article.author.nickname}
+                </div>
             </div>
         {/each}
+
+        <!-- 페이지네이션 -->
+        <div class="pagination">
+            <button on:click={() => goToPage(0)} disabled={articles.first}>첫 페이지</button>
+            <button on:click={() => goToPage(currentPage - 1)} disabled={articles.first}>이전</button>
+            {#each Array(articles.totalPages).fill(0) as _, index}
+                <button
+                        on:click={() => goToPage(index)}
+                        class={index === currentPage ? "active" : ""}
+                >
+                    {index + 1}
+                </button>
+            {/each}
+            <button on:click={() => goToPage(currentPage + 1)} disabled={articles.last}>다음</button>
+            <button on:click={() => goToPage(articles.totalPages - 1)} disabled={articles.last}>마지막 페이지</button>
+        </div>
     </div>
 {/if}
-
-
-
-
-
-
-
-
-
