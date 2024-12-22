@@ -2,7 +2,6 @@
 <script lang="ts">
     import {onMount} from "svelte";
     const apiUrl = import.meta.env.VITE_API_URL;
-    // article 객체 타입 정의
 
     interface author{
         nickname : string;
@@ -28,6 +27,7 @@
         title: string;
         content: string;
         author : author;
+        createdDate: string;
     }
 
     interface ArticleResponse {
@@ -76,33 +76,48 @@
             console.log(data)
             articles = data; // 받은 데이터를 articles에 저장
 
-        } catch (e : any) {
+        } catch (e) {
             console.error("오류 발생:", e.message);  // 오류 메시지 출력
             console.log("오류 발생")
         }
 
     })
+
+    function formatDate(dateString:string) {
+        return new Date(dateString).toLocaleDateString('ko-KR');
+    }
 </script>
 
-<div> this is article page</div>
+
+<style>
+    .article {
+        margin: 10px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+        transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    }
+</style>
+
 
 {#if errorMessage}
     <div class="error">{errorMessage}</div> <!-- 오류가 있을 경우 표시 -->
 {:else}
-    <div class="articles">
-        {console.log(articles)}
-        {console.log(articles.content)}
+    <div class="articles" style="margin: 10px">
+        <h2 style="margin: 15px"> 자유게시판</h2>
         {#each articles.content as article}
-                 <div class="article">
-                {console.log(article)}
-                <h2>{article.title}</h2>
-                <div>{article.author.nickname}</div>
-                <div>{article.author.vedaOrder}</div>
-                <p>{article.content}</p>
+            <div class="article" style="display: flex; padding: 12px">
+                <div style="font-size: 12px; justify-content: center; text-align: center">{formatDate(article.createdDate)}</div>
+                <div style="font-size: 12px; padding-left: 20px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 150px;">
+                    {article.title}
+                </div>
+                <div style="margin-left: auto; font-size: 11px">{article.author.vedaOrder}기 {article.author.nickname}</div>
             </div>
         {/each}
     </div>
 {/if}
+
+
+
+
 
 
 
