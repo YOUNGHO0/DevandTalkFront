@@ -7,7 +7,6 @@
         console.log('버튼 클릭됨');
     };
     const handleLogout = async () => {
-        console.log('로그아웃 버튼 클릭됨'); // 디버깅을 위한 로그
         try {
             const apiResponse = await fetch(`${apiUrl}/api/v1/user/logout`, {
                 method: 'GET',
@@ -19,7 +18,6 @@
 
             if (apiResponse.ok) {
                 // 로그아웃이 성공하면 처리할 로직 (예: 리디렉션, 상태 변경 등)
-                console.log("로그아웃 성공");
                 window.location.href = "/login";  // 로그인 페이지로 리디렉션
             } else {
                 // 실패한 경우 처리
