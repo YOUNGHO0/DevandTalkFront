@@ -34,8 +34,7 @@
    function handleOutsideClick(event: MouseEvent) {
        const target = event.target as HTMLElement | null;
 
-       // target이 null이 아니고 '.drawer-container'가 포함되지 않으면 open을 false로 설정
-       if (target && !target.closest('.drawer-container')) {
+       if (target && !target.closest('.nicknameWrapper ')) {
            open = false;
        }
   }
@@ -85,8 +84,42 @@
             }
         } catch (error) {
             console.log('Error occurred:', error);
+            if (window.location.pathname !== '/serverError') {
+                window.location.href = '/serverError';
+            }
+
         }
     }
+
+    const handleLogout = async () => {
+        try {
+            console.log("버튼 클릭")
+            const apiResponse = await fetch(`${apiUrl}/api/v1/user/logout`, {
+                method: 'GET',
+                headers: {
+                    // 'Content-Type'을 제거하거나, 필요시 명시하지 않음
+                },
+                credentials: 'include', // 쿠키를 포함시켜 요청
+            });
+
+            if (apiResponse.ok) {
+                // 로그아웃이 성공하면 처리할 로직 (예: 리디렉션, 상태 변경 등)
+                window.location.href = "/login";  // 로그인 페이지로 리디렉션
+            } else {
+                // 실패한 경우 처리
+                console.error("로그아웃 실패");
+            }
+        } catch (error) {
+            console.error("로그아웃 중 오류 발생:", error);
+        }
+    };
+
+    import { afterNavigate } from '$app/navigation';
+
+    afterNavigate(() => {
+        checkUserStatus()
+    });
+
    </script>
    
    <style>
@@ -98,17 +131,6 @@
   }
 
 
-     .drawer-container {
-       position: relative;
-       display: flex;
-       height: 500px;
-       max-width: 600px;
-       border: 20px solid
-         var(--mdc-theme-text-hint-on-background, rgba(0, 0, 0, 0.1));
-       overflow: hidden;
-       z-index: 0;
-     }
-   
      * :global(.app-content) {
        flex: auto;
        overflow: auto;
@@ -206,17 +228,22 @@
     </AutoAdjust>
 
     <Drawer variant="modal" fixed={false} bind:open>
-      <Header>
-        <Title class="nickname">닉네임 위치</Title>
+        <div class="nicknameWrapper" style="padding-left: 15px; padding-right: 15px; background-color: #ff3e00;display: flex; justify-content: center">
+            <h3 style=" color: white;text-align: center ;" class="nickname">닉네임 위치</h3>
+            <Button onclick={handleLogout} style=" color: white; font-size: 14px; text-align: center; margin-left: auto"> 로그아웃 </Button>
+        </div>
 
-      </Header>
 
-      <Separator />
       <Content>
         <List>
-          <Item href="/hello">
+          <Item href="/article">
            자유게시판
           </Item>
+        <Separator />
+            <Item href="/anonarticle">
+                익명게시판
+            </Item>
+            <Separator />
 
 
 
