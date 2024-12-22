@@ -66,7 +66,7 @@
     // 페이지 데이터 로드 함수
     async function loadArticles(page: number) {
         try {
-            const apiResponse = await fetch(`${apiUrl}/api/v1/article/list?page=${page}&size=20`, {
+            const apiResponse = await fetch(`${apiUrl}/api/v1/article/list?page=${page}&size=20&sort=createdDate,desc`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -131,6 +131,7 @@
 {#if errorMessage}
     <div class="error">{errorMessage}</div> <!-- 오류가 있을 경우 표시 -->
 {:else}
+    {console.log(articles.content)}
     <div class="articles" style="margin: 10px">
         <h2 style="margin: 15px">자유게시판</h2>
         {#each articles.content as article}
