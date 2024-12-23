@@ -2,7 +2,7 @@
 
 <script lang="ts">
     import List, { Item, Text, Graphic, Separator, Subheader } from '@smui/list';
-
+    import Comment from "../../../components/Comment.svelte";
     interface Author {
         nickname: string;
         vedaOrder: bigint;
@@ -49,6 +49,11 @@
         const formattedTime = time.split('.')[0]; // 소수점 이하 제거
         return `${date} ${formattedTime}`; // 공백으로 연결
     }
+
+    let comments = [
+        { author: 'Alice', text: 'Great post!' },
+        { author: 'Bob', text: 'Thanks for sharing.' }
+    ];
 </script>
 
 <style>
@@ -85,6 +90,7 @@
 
     </div>
 
+    <Comment id={response.id} />
 
 
 
