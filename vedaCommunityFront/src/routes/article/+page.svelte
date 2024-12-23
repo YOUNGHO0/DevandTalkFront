@@ -76,26 +76,50 @@
 
     .pagination {
         display: flex;
-        justify-content: center;
-        margin-top: 20px;
-    }
-
-    .active {
-        background-color: #007bff;
-        color: white;
+        justify-content: center; /* 버튼 중앙 정렬 */
+        align-items: center; /* 세로로 버튼 중앙 배치 */
+        gap: 5px; /* 버튼 간격 */
+        flex-wrap: nowrap; /* 줄바꿈 방지 */
+        overflow-x: auto; /* 버튼이 많을 경우 가로 스크롤 허용 */
+        padding: 10px; /* 컨테이너 안쪽 여백 */
     }
 
     button {
-        padding: 5px;
-        margin: 2px;
+        padding: 8px 12px; /* 버튼 크기 */
         border-radius: 4px;
         border: 1px solid #ddd;
         cursor: pointer;
+        font-size: 14px;
+        text-align: center;
+        white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+    }
+
+    button.active {
+        background-color: #007bff;
+        color: white;
     }
 
     button:disabled {
         background-color: #ccc;
         cursor: not-allowed;
+    }
+
+    /* 부모 컨테이너 크기를 넘지 않도록 제한 */
+    .pagination {
+        max-width: 100%; /* 부모 컨테이너의 최대 너비를 화면 너비로 제한 */
+        overflow-x: hidden; /* 불필요한 스크롤 제거 */
+    }
+
+    /* 반응형: 화면이 작아질 때 버튼 크기 조정 */
+    @media (max-width: 768px) {
+        button {
+            padding: 6px 10px; /* 버튼 크기 축소 */
+            font-size: 12px; /* 글자 크기 축소 */
+        }
+
+        .pagination {
+            gap: 3px; /* 간격 축소 */
+        }
     }
 </style>
 
@@ -122,16 +146,12 @@
 
         <!-- 페이지네이션 -->
         <div class="pagination">
-            <!-- 첫 페이지 이동 -->
-            <button onclick={() => goToPage(0)} disabled={articles.first}>첫 페이지</button>
-            <!-- 이전 페이지 목록으로 이동 -->
             <button
                     onclick={() => (startPage > 0 ? goToPage(startPage - 1) : null)}
                     disabled={startPage === 0}
             >
                 이전
             </button>
-            <!-- 현재 페이지 그룹 내의 버튼들 -->
             {#each Array(5).fill(0) as _, index (startPage + index)}
                 {#if startPage + index < articles.totalPages}
                     <button
@@ -142,20 +162,13 @@
                     </button>
                 {/if}
             {/each}
-            <!-- 다음 페이지 목록으로 이동 -->
             <button
                     onclick={() => (startPage + 5 < articles.totalPages ? goToPage(startPage + 5) : null)}
                     disabled={startPage + 5 >= articles.totalPages}
             >
                 다음
             </button>
-            <!-- 마지막 페이지 이동 -->
-            <button
-                    onclick={() => goToPage(articles.totalPages - 1)}
-                    disabled={articles.last}
-            >
-                마지막 페이지
-            </button>
         </div>
+
     </div>
 {/if}
