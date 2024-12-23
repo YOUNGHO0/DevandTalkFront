@@ -31,13 +31,15 @@
      let topAppBar: TopAppBar | null = $state(null);
 
    // 클라이언트 측에서만 실행되도록 보장
-   function handleOutsideClick(event: MouseEvent) {
-       const target = event.target as HTMLElement | null;
+    function handleOutsideClick(event: MouseEvent) {
+        const target = event.target as HTMLElement | null;
+        const nicknameWrapper = document.querySelector('.drawerTotal');
 
-       if (target && !target.closest('.nicknameWrapper ')) {
-           open = false;
-       }
-  }
+        // nicknameWrapper 외부 클릭 시만 실행
+        if (nicknameWrapper && target && !nicknameWrapper.contains(target)) {
+            open = false;
+        }
+    }
 
   onMount(() => {
       checkUserStatus();
@@ -118,6 +120,7 @@
 
     afterNavigate(() => {
         checkUserStatus()
+        open = false;
     });
 
    </script>
@@ -227,7 +230,7 @@
     <AutoAdjust {topAppBar}>
     </AutoAdjust>
 
-    <Drawer variant="modal" fixed={false} bind:open>
+    <Drawer class="drawerTotal" variant="modal" fixed={false} bind:open>
         <div class="nicknameWrapper" style="padding-left: 15px; padding-right: 15px; background-color: #ff3e00;display: flex; justify-content: center">
             <h3 style=" color: white;text-align: center ;" class="nickname">닉네임 위치</h3>
             <Button onclick={handleLogout} style=" color: white; font-size: 14px; text-align: center; margin-left: auto"> 로그아웃 </Button>
@@ -236,11 +239,11 @@
 
       <Content>
         <List>
-          <Item href="/article">
+          <Item href="/article" style="width: 100%">
            자유게시판
           </Item>
         <Separator />
-            <Item href="/anonarticle">
+            <Item href="/anonarticle" >
                 익명게시판
             </Item>
             <Separator />
