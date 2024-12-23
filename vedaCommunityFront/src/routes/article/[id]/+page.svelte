@@ -1,13 +1,31 @@
 <!-- src/routes/article/[id]/+page.svelte -->
-<script>
+
+<script lang="ts">
+    import List, { Item, Text, Graphic, Separator, Subheader } from '@smui/list';
+
+    interface Author {
+        nickname: string;
+        vedaOrder: bigint;
+    }
+
+    interface Article {
+        id : bigint
+        title: string;
+        content: string;
+        author: Author;
+        createdDate: string;
+    }
+
+
     // `data` 객체를 통해 `load` 함수에서 전달된 데이터를 가져옴
     import {onMount} from "svelte";
 
     const apiUrl = import.meta.env.VITE_API_URL;
     export let data;
-    let response ={};
+    let response :Article
 
-
+    let contentHeight = 0; // 글의 높이를 측정할 변수
+    const minOffset = 100; // 최소 300px의 거리
     onMount(async ()=>{
 
         const apiResponse = await fetch(`${apiUrl}/api/v1/article/${data.id}`, {
@@ -20,7 +38,57 @@
         response = await apiResponse.json();
         console.log(response)
 
+        const contentElement = document.querySelector('.content');
+        if (contentElement) {
+            contentHeight = contentElement.offsetHeight; // 글 높이 계산
+        }
         })
+
+    function formatDate(dateString:string) {
+        const [date, time] = dateString.split('T'); // T를 기준으로 분리
+        const formattedTime = time.split('.')[0]; // 소수점 이하 제거
+        return `${date} ${formattedTime}`; // 공백으로 연결
+    }
 </script>
 
-<h1>Article ID: {response.content}</h1>
+<style>
+    .content-wrapper {
+        position: relative; /* 컨테이너를 기준으로 배치 */
+    }
+
+    .separator-wrapper {
+        margin-top: 0; /* 기본값 */
+    }
+</style>
+
+{#if response}
+    <div style="margin-left: 15px; margin-right: 15px" >
+        <h2 style="margin-top: 15px; margin-bottom: 10px">{response.title}</h2>
+        <div style="display: flex">
+            <div style=" margin-right: 10px; font-size: 12px; margin-bottom: 10px">{response.author.nickname}</div>
+            <div style="font-size: 12px" >{formatDate(response.createdDate)}</div>
+        </div>
+        <Separator />
+        <div class="content-wrapper">
+            <div class="content">
+                <h4>{response.content}</h4>
+            </div>
+
+            <div
+                    class="separator-wrapper"
+                    style="margin-top: {Math.max(minOffset - contentHeight, 0)}px"
+            >
+                <Separator />
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+
+
+{:else}
+    <p>Loading</p>
+{/if}
