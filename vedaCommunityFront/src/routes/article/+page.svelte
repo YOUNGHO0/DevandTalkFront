@@ -3,48 +3,9 @@
     import { goto } from '$app/navigation'; // SvelteKit의 goto 함수 사용
     const apiUrl = import.meta.env.VITE_API_URL;
 
-    interface Author {
-        nickname: string;
-        vedaOrder: bigint;
-    }
-
-    interface Pageable {
-        pageNumber: number;
-        pageSize: number;
-        offset: number;
-        unpaged: boolean;
-        sort: Sort;
-    }
-
-    interface Sort {
-        empty: boolean;
-        unsorted: boolean;
-        sorted: boolean;
-    }
-
-    interface Article {
-        id : bigint
-        title: string;
-        content: string;
-        author: Author;
-        createdDate: string;
-    }
-
-    interface ArticleResponse {
-        content: Article[];
-        pageable: Pageable;
-        totalElements: number;
-        totalPages: number;
-        size: number;
-        number: number;
-        numberOfElements: number;
-        first: boolean;
-        last: boolean;
-        empty: boolean;
-    }
 
     let errorMessage = "";
-    let articles: ArticleResponse = {
+    let articles: App.ArticleResponse = {
         content: [],
         pageable: {
             pageNumber: 0,

@@ -2,19 +2,8 @@
 
 <script lang="ts">
     import List, { Item, Text, Graphic, Separator, Subheader } from '@smui/list';
-    import Comment from "../../../components/Comment.svelte";
-    interface Author {
-        nickname: string;
-        vedaOrder: bigint;
-    }
+    import CommentList from "../../../components/CommentList.svelte";
 
-    interface Article {
-        id : bigint
-        title: string;
-        content: string;
-        author: Author;
-        createdDate: string;
-    }
 
 
     // `data` 객체를 통해 `load` 함수에서 전달된 데이터를 가져옴
@@ -90,7 +79,7 @@
 
     </div>
 
-    <Comment id={response.id} />
+    <CommentList id={response.id} />
 
 
 
