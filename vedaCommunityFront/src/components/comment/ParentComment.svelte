@@ -4,8 +4,7 @@
     import Button from "@smui/button";
     import {userStatus} from "../../stores/user";
 
-    export let comment;
-    export let editMode:boolean;
+    let{fetchComments,comment,editMode = $bindable(false)} : {fetchComments:()=>void,comment:App.CommentDto,editMode:boolean} = $props();
 </script>
 
 
@@ -27,7 +26,10 @@
         <div class="comment-content" style=" margin-left: 0px;">{comment.commentContent}</div>
         {#if $userStatus.isLoggedIn && $userStatus.userNickname === comment.author.nickname}
         <div style="display: flex; align-items: center; margin-left: auto;justify-content: center">
-            <Button onclick={()=>{editMode= !editMode}} style="margin-left: auto" secondary> 수정 </Button>
+            <Button onclick={()=>{
+                console.log("왜안돼");
+                console.log(editMode);
+                editMode= !editMode}} style="margin-left: auto" secondary> 수정 </Button>
             <Button onclick={()=>{}} style="margin-left: auto" secondary> 삭제 </Button>
         </div>
         {/if}

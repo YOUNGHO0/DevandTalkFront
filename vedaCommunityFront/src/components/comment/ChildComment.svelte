@@ -3,8 +3,7 @@
     import {formatDateWithTime} from "../../utils/helper.js";
     import "../../utils/common.css"
     import Button from "@smui/button";
-    export let childComment :App.CommentDto;
-    export let editMode :boolean
+    let{fetchComments,childComment,editMode = $bindable()} : {fetchComments:()=>void,childComment:App.CommentDto,editMode:boolean} = $props();
     import {userStatus} from "../../stores/user";
 </script>
 

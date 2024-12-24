@@ -38,7 +38,7 @@
             <div >
 
                 {#each comments as comment}
-                    <ParentCommentHandler {comment}></ParentCommentHandler>
+                    <ParentCommentHandler {fetchComments} {comment}></ParentCommentHandler>
                 {/each}
             </div>
         {:else}

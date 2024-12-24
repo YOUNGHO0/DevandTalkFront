@@ -2,8 +2,7 @@
     import Textfield from '@smui/textfield';
     import HelperText from '@smui/textfield/helper-text';
 
-    export let comment:App.CommentDto;  // 부모에서 전달받은 comment 값
-    export let editMode:boolean;
+    let{fetchComments,comment,editMode = $bindable()} : {fetchComments:()=>void,comment:App.CommentDto,editMode:boolean} = $props();
     import { writable } from 'svelte/store';
     import Button from "@smui/button";
 
