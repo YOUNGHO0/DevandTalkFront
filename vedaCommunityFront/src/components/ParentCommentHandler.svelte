@@ -20,11 +20,13 @@ function onEditClick(){
 
 <div>
     {#if editMode}
-        <div on:click={onEditClick}>뒤로가기</div>
-        <CommentEdit {comment}></CommentEdit>
+        <div style="display:flex;">
+            <CommentEdit {comment} bind:editMode></CommentEdit>
+        </div>
+
+
     {:else}
-        <div on:click={onEditClick}>수정</div>
-        <ParentComment {comment}></ParentComment>
+        <ParentComment {comment} bind:editMode></ParentComment>
     {/if}
 
     {#if childCommentList !== null}
@@ -32,7 +34,6 @@ function onEditClick(){
             <ChildCommentHandler {childComment}></ChildCommentHandler>
         {/each}
     {:else}
-        <p>댓글이 없습니다.</p>
     {/if}
 </div>
 
