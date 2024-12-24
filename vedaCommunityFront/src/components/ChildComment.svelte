@@ -5,6 +5,7 @@
     import Button from "@smui/button";
     export let childComment :App.CommentDto;
     export let editMode :boolean
+    import {userStatus} from "../stores/user";
 </script>
 
 <style>
@@ -22,7 +23,9 @@
     </div>
     <div style="display: flex">
         <div class="comment-content" style=" padding-top: 10px">{childComment.commentContent}</div>
+        {#if $userStatus.isLoggedIn && $userStatus.userNickname === childComment.author.nickname}
         <Button onclick={()=>{editMode= !editMode}} style="margin-left: auto" secondary> 수정 </Button>
+        {/if}
     </div>
 
 </div>

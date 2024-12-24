@@ -2,7 +2,7 @@
 <script lang="ts">
     import {formatDateWithTime} from "../utils/helper.js";
     import Button from "@smui/button";
-
+    import {userStatus} from "../stores/user";
 
     export let comment;
     export let editMode:boolean;
@@ -24,7 +24,9 @@
     </div>
     <div style="display: flex">
         <div class="comment-content" style="margin: 5 px; margin-left: 0px; padding-top: 10px">{comment.commentContent}</div>
+        {#if $userStatus.isLoggedIn && $userStatus.userNickname === comment.author.nickname}
         <Button onclick={()=>{editMode= !editMode}} style="margin-left: auto" secondary> 수정 </Button>
+        {/if}
     </div>
 
 </div>
