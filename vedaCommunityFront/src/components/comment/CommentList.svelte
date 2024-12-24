@@ -29,17 +29,16 @@
 </script>
 
 {#if id}
-    <div>
-
+    <div style="margin-left: 15px; margin-right: 15px">
+        <h3 >댓글 </h3>
         {#if comments.length > 0}
-            <div style="margin-left: 15px; margin-right: 15px">
-                <h3 >댓글 </h3>
+            <div >
+
                 {#each comments as comment}
                     <ParentCommentHandler {comment}></ParentCommentHandler>
                 {/each}
             </div>
         {:else}
-            <p>No comments found.</p>
         {/if}
     </div>
 {:else}
