@@ -58,6 +58,16 @@ declare global {
 			last: boolean;
 			empty: boolean;
 		}
+
+		interface ArticleCreateDto {
+			title: string;
+			content: string;
+		}
+		interface ArticleUpdateDto {
+			"id" : bigint,
+			"title" : string,
+			"content" : string
+		}
 	}
 }
 
