@@ -32,7 +32,6 @@
     <div>
 
         {#if comments.length > 0}
-
             <div style="margin-left: 15px; margin-right: 15px">
                 <h3 >댓글 </h3>
                 {#each comments as comment}
