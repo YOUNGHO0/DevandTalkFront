@@ -1,6 +1,7 @@
 <script lang="ts">
     import { onMount } from "svelte";
     import { goto } from '$app/navigation'; // SvelteKit의 goto 함수 사용
+    import {formatDate} from "../../utils/helper"
     const apiUrl = import.meta.env.VITE_API_URL;
 
 
@@ -54,9 +55,7 @@
         loadArticles(0); // 페이지 로드 시 첫 페이지 데이터를 불러옴
     });
 
-    function formatDate(dateString: string) {
-        return new Date(dateString).toLocaleDateString("ko-KR");
-    }
+
 
     // 페이지 변경 함수
     function goToPage(page: number) {

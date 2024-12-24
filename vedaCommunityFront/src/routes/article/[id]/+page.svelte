@@ -8,10 +8,11 @@
 
     // `data` 객체를 통해 `load` 함수에서 전달된 데이터를 가져옴
     import {onMount} from "svelte";
+    import {formatDateWithTime} from "../../../utils/helper";
 
     const apiUrl = import.meta.env.VITE_API_URL;
     export let data;
-    let response :Article
+    let response :App.Article
 
     let contentHeight = 0; // 글의 높이를 측정할 변수
     const minOffset = 100; // 최소 300px의 거리
@@ -33,11 +34,7 @@
         }
         })
 
-    function formatDate(dateString:string) {
-        const [date, time] = dateString.split('T'); // T를 기준으로 분리
-        const formattedTime = time.split('.')[0]; // 소수점 이하 제거
-        return `${date} ${formattedTime}`; // 공백으로 연결
-    }
+
 
     let comments = [
         { author: 'Alice', text: 'Great post!' },
@@ -60,7 +57,7 @@
         <h2 style="margin-top: 15px; margin-bottom: 10px">{response.title}</h2>
         <div style="display: flex">
             <div style=" margin-right: 10px; font-size: 12px; margin-bottom: 10px">{response.author.nickname}</div>
-            <div style="font-size: 12px" >{formatDate(response.createdDate)}</div>
+            <div style="font-size: 12px" >{formatDateWithTime(response.createdDate)}</div>
         </div>
         <Separator />
         <div class="content-wrapper">
