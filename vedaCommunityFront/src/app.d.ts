@@ -71,6 +71,10 @@ declare global {
 			"commentContent": string
 
 		}
+		interface CommentUpdateDto {
+			commentId: number;
+			content : string;
+		}
 	}
 }
 
