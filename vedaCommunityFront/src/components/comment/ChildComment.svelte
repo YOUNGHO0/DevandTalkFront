@@ -1,11 +1,11 @@
 <script lang="ts">
 
-    import {formatDateWithTime} from "../utils/helper.js";
-    import "../utils/common.css"
+    import {formatDateWithTime} from "../../utils/helper.js";
+    import "../../utils/common.css"
     import Button from "@smui/button";
     export let childComment :App.CommentDto;
     export let editMode :boolean
-    import {userStatus} from "../stores/user";
+    import {userStatus} from "../../stores/user";
 </script>
 
 <style>

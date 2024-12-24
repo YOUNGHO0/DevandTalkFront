@@ -16,15 +16,18 @@
     function sendEditComment(){};
 </script>
 
-<div>
+<div style="width: 100%">
     <Textfield variant="outlined"
                bind:value={value}
                textarea
                style="width: 100% ; height: 150px;
                "
     />
-    <Button onclick={sendEditComment} variant="raised"> 수정 </Button>
-    <Button color="secondary"  onclick={handleClick} variant="raised">취소</Button>
+    <p style="margin-left: auto;width: 135px; display: flex; justify-content: space-between;">
+        <Button onclick={sendEditComment} variant="raised"> 수정 </Button>
+        <Button color="secondary"  onclick={handleClick} variant="raised">취소</Button>
+
+    </p>
 
 </div>
 

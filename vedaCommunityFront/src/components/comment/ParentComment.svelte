@@ -1,8 +1,8 @@
 
 <script lang="ts">
-    import {formatDateWithTime} from "../utils/helper.js";
+    import {formatDateWithTime} from "../../utils/helper.js";
     import Button from "@smui/button";
-    import {userStatus} from "../stores/user";
+    import {userStatus} from "../../stores/user";
 
     export let comment;
     export let editMode:boolean;
