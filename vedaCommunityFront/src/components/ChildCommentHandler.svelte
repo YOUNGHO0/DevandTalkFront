@@ -4,14 +4,14 @@
     import ChildComment from "./ChildComment.svelte";
 
     export let childComment :App.CommentDto;
-    let isEdited : boolean = false;
+    let editMode : boolean = false;
     // CommentDto 타입 정의
 
 </script>
 
 
-{#if isEdited}
-    <CommentEdit comment = {childComment}></CommentEdit>
+{#if editMode}
+    <CommentEdit comment = {childComment} bind:editMode></CommentEdit>
     {:else }
-    <ChildComment {childComment}></ChildComment>
+    <ChildComment {childComment} bind:editMode></ChildComment>
     {/if}
