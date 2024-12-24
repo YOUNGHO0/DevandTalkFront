@@ -2,11 +2,6 @@
 // for information about these interfaces
 declare global {
 	namespace App {
-		// interface Error {}
-		// interface Locals {}
-		// interface PageData {}
-		// interface PageState {}
-		// interface Platform {}
 		interface CommunityUserReadResponseDto {
 			nickname: string;
 		}
@@ -21,7 +16,7 @@ declare global {
 
 		interface Author {
 			nickname: string;
-			vedaOrder: bigint;
+			vedaOrder: number;
 		}
 
 		interface Pageable {
@@ -39,7 +34,7 @@ declare global {
 		}
 
 		interface Article {
-			id : bigint
+			id : number
 			title: string;
 			content: string;
 			author: Author;
@@ -64,9 +59,17 @@ declare global {
 			content: string;
 		}
 		interface ArticleUpdateDto {
-			"id" : bigint,
+			"id" : number,
 			"title" : string,
 			"content" : string
+		}
+		interface ArticleDeleteDto {
+			"deleteId" : number;
+		}
+		interface CommentCreateDto {
+			"articleId": number
+			"commentContent": string
+
 		}
 	}
 }
