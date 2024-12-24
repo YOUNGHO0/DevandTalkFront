@@ -4,7 +4,7 @@
 
     const apiUrl = import.meta.env.VITE_API_URL;
 
-    export let id: bigint;  // 부모에서 전달받을 id
+    export let id: number;  // 부모에서 전달받을 id
     let comments: App.CommentDto[] = [];  // 댓글 데이터를 저장할 변수
 
     // 댓글 데이터를 API에서 받아오는 부분

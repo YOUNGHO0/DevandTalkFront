@@ -10,7 +10,7 @@
      const apiUrl = import.meta.env.VITE_API_URL;
      let response: App.Article;
      let editMode: boolean = false;
-     let id :bigint = BigInt(data.id);
+     let id :number = Number(data.id);
      onMount(async()=>{
          const apiResponse = await fetch(`${apiUrl}/api/v1/article/${data.id}`, {
              method: "GET",

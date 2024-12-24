@@ -34,7 +34,7 @@
 
         // 서버로 전송할 데이터
         const dto: App.ArticleUpdateDto = {
-            id: id,
+            id: Number(id),
             title: title,
             content: content,
         };
