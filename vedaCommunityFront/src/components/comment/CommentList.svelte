@@ -1,31 +1,34 @@
 <script lang="ts">
     import { onMount } from "svelte";
     import ParentCommentHandler from "./ParentCommentHandler.svelte";
+    import CommentWrite from "./CommentWrite.svelte";
 
     const apiUrl = import.meta.env.VITE_API_URL;
 
     export let id: number;  // 부모에서 전달받을 id
     let comments: App.CommentDto[] = [];  // 댓글 데이터를 저장할 변수
 
-    // 댓글 데이터를 API에서 받아오는 부분
-    onMount(async () => {
+    async function fetchComments() {
         if (id) {
             const apiResponse = await fetch(`${apiUrl}/api/v1/comment/list/${id}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                credentials: "include",  // 쿠키를 포함시켜 요청
+                credentials: "include",
             });
 
             if (apiResponse.ok) {
                 const data: App.CommentDto[] = await apiResponse.json();
-                comments = data;  // 받아온 데이터를 comments 변수에 저장
+                comments = data;
             } else {
                 console.error("Failed to fetch comments");
             }
         }
-    });
+    }
+
+    // 댓글 데이터를 API에서 받아오는 부분
+    onMount(fetchComments);
 </script>
 
 {#if id}
@@ -41,6 +44,7 @@
         {:else}
         {/if}
     </div>
+    <CommentWrite {id} fetchComments={()=>{fetchComments()}}></CommentWrite>
 {:else}
     <div>Loading...</div>
 {/if}
