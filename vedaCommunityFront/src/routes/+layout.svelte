@@ -1,5 +1,7 @@
     
     <script lang="ts">
+    import {userStatus} from "../stores/user";
+
     let { children } = $props();
       // 외부 클릭 시 Drawer 닫기
      import { onMount, onDestroy } from 'svelte';
@@ -69,19 +71,20 @@
                 },
                 credentials: 'include', // 쿠키를 포함시켜 요청
             });
-            console.log(apiResponse.status)
-            console.log(await apiResponse.text())
-            console.log(window.location.pathname)
             if (apiResponse.status === 200) {
                 console.log('200 received');
+                let json = await apiResponse.json();
+                userStatus.set({ userNickname: json.nickname, isLoggedIn : true });
             } else if (apiResponse.status === 401) {
                 console.log(window.location.pathname)
                 if (window.location.pathname !== '/login') {
                     window.location.href = '/login';
+                    userStatus.set({ userNickname: null, isLoggedIn : false });
                 }
             } else if (apiResponse.status === 403) {
                 if (window.location.pathname !== '/temp') {
                     window.location.href = '/temp';
+                    userStatus.set({ userNickname: null, isLoggedIn : false });
                 }
             }
         } catch (error) {
