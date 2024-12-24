@@ -13,18 +13,22 @@
         display: flex; /* Flexbox 활성화 */
         justify-content: center; /* 가로 가운데 정렬 */
         align-items: center; /* 세로 가운데 정렬 */
+        font-size: 12px;
     }
 </style>
 
-<div class="comment" style="padding:10px; margin-left: 20px; margin-right: 5px">
+<div class="childComment" style="padding:10px; margin-left: 20px;">
     <div style="display: flex">
         <h4 style="margin: 5px; margin-left: 0px;">{childComment.author.nickname}</h4>
         <div style="margin-left:auto " class="centered">{formatDateWithTime(childComment.createdAt)}</div>
     </div>
-    <div style="display: flex">
-        <div class="comment-content" style=" padding-top: 10px">{childComment.commentContent}</div>
+    <div style="display: flex; padding-top: 10px; align-items: center;">
+        <div class="comment-content">{childComment.commentContent}</div>
         {#if $userStatus.isLoggedIn && $userStatus.userNickname === childComment.author.nickname}
-        <Button onclick={()=>{editMode= !editMode}} style="margin-left: auto" secondary> 수정 </Button>
+            <div style="display: flex; align-items: center; margin-left: auto;justify-content: center">
+                <Button onclick={()=>{editMode= !editMode}} style="margin-left: auto" secondary> 수정 </Button>
+                <Button onclick={()=>{}} style="margin-left: auto" secondary> 삭제 </Button>
+            </div>
         {/if}
     </div>
 

@@ -46,20 +46,22 @@
 
 {#if response}
     <div style="margin-left: 15px; margin-right: 15px" >
-        <h2 style="margin-top: 0px; margin-bottom: 10px">{response.title}</h2>
-        <div style="display: flex; justify-content: center; align-items: center">
+        <h2 style="margin-top: 0px; margin-bottom: 5px">{response.title}</h2>
+        <div style="display: flex;padding-bottom: 10px">
             <div style="display: flex; margin-right: auto">
                 <div style=" margin-right: auto; font-size: 12px;">{response.author.nickname}</div>
                 <div style="font-size: 12px; margin-left: 10px" >{formatDateWithTime(response.createdDate)}</div>
             </div>
             {#if $userStatus.isLoggedIn && $userStatus.userNickname === response.author.nickname}
-            <Button onclick={flipEditMode} style="margin: 0px; margin-left: auto; padding: 0px">수정</Button>
+                <Button onclick={flipEditMode} style="height: auto; width: auto;">수정</Button>
+                <Button onclick={()=>{}} style="height: auto; width: auto;">삭제</Button>
             {/if}
+
         </div>
         <Separator />
         <div class="content-wrapper">
             <div class="content">
-                <h4>{response.content}</h4>
+                <h4 style="font-weight: normal">{response.content}</h4>
             </div>
 
             <div
