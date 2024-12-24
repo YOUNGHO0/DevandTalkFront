@@ -2,6 +2,7 @@
     import { onMount } from "svelte";
     import { goto } from '$app/navigation'; // SvelteKit의 goto 함수 사용
     import {formatDate} from "../../utils/helper"
+    import Button from "@smui/button";
     const apiUrl = import.meta.env.VITE_API_URL;
 
 
@@ -68,7 +69,7 @@
 
 <style>
     .article {
-        margin: 10px;
+        margin-bottom: 10px;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
         transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
     }
@@ -125,15 +126,19 @@
 {#if errorMessage}
     <div class="error">{errorMessage}</div> <!-- 오류가 있을 경우 표시 -->
 {:else}
-    <div class="articles" style="margin: 10px">
-        <h2 style="margin: 15px">자유게시판</h2>
+
+    <div class="articles" style="margin: 25px; ">
+        <div style="display: flex; justify-content: center; align-items: center">
+            <h2 style="margin-left: 5px; margin-bottom: 20px;">자유게시판</h2>
+            <Button href="article/create" color="secondary" variant="raised" style="font-weight: bold ;font-size: 12px; width: 70px; display: flex; margin-left: auto">글쓰기</Button>
+        </div>
         {#each articles.content as article}
             <div onclick={() => navigateToArticle(article.id)}  class="article" style="display: flex; padding: 12px">
                 <div style="font-size: 12px; justify-content: center; text-align: center">
                     {formatDate(article.createdDate)}
                 </div>
                 <div
-                        style="font-size: 12px; padding-left: 20px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 150px;"
+                        style="font-weight: bold; font-size: 12px; padding-left: 20px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 150px;"
                 >
                     {article.title}
                 </div>
@@ -142,6 +147,8 @@
                 </div>
             </div>
         {/each}
+
+        <Button href="article/create" variant="raised" style="width: 80px; display: flex; margin-left: auto">글쓰기</Button>
 
         <!-- 페이지네이션 -->
         <div class="pagination">
