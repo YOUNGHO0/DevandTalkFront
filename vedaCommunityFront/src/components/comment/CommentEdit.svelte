@@ -12,7 +12,34 @@
     function handleClick(event: MouseEvent) {
         editMode = !editMode;
     }
-    function sendEditComment(){};
+    async function sendEditComment(){
+
+
+        const apiUrl = import.meta.env.VITE_API_URL;  // 환경변수에서 API URL 불러오기
+        try {
+            const dto : App.CommentUpdateDto = {commentId:comment.id, content:value};
+            const apiResponse = await fetch(`${apiUrl}/api/v1/comment`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",  // 요청 헤더에 Content-Type 설정
+                },
+                credentials: "include",  // 쿠키 포함
+                body: JSON.stringify(dto),  // request body에 데이터 추가 (JSON 형식)
+            });
+
+            // 응답 처리
+            if (!apiResponse.ok) {
+                throw new Error('Failed to create article');  // 요청 실패 시 오류 처리
+            }
+            if(apiResponse.status === 200){
+                fetchComments();
+            }
+        } catch (error) {
+            console.error("Error creating article:", error);
+            throw error;  // 오류 발생 시 처리
+        }
+
+    };
 </script>
 
 <div style="width: 100%">
