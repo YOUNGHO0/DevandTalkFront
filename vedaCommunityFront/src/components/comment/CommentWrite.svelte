@@ -28,7 +28,6 @@
             if(apiResponse.status === 200){
                 value = "";
                 fetchComments();
-                console.log(await apiResponse.text())
 
 
             }
