@@ -3,15 +3,14 @@
     import CommentEdit from "./CommentEdit.svelte";
     import ChildComment from "./ChildComment.svelte";
 
-    let {fetchComments, childComment} : {fetchComments : ()=>void,childComment:App.CommentDto} = $props();
+    let {fetchComments, childComment, parentId} : {fetchComments : ()=>void,childComment:App.CommentDto,parentId:number} = $props();
     let editMode : boolean = $state(false);
     // CommentDto 타입 정의
 
 </script>
 
-
 {#if editMode}
-    <CommentEdit {fetchComments} comment = {childComment} bind:editMode></CommentEdit>
+    <CommentEdit bind:fetchComments comment = {childComment} bind:editMode></CommentEdit>
     {:else }
-    <ChildComment {fetchComments} {childComment} bind:editMode></ChildComment>
+    <ChildComment {parentId} {fetchComments} {childComment} bind:editMode></ChildComment>
     {/if}
