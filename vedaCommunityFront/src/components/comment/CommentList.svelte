@@ -5,8 +5,9 @@
 
     const apiUrl = import.meta.env.VITE_API_URL;
 
-    export let id: number;  // 부모에서 전달받을 id
-    let comments: App.CommentDto[] = [];  // 댓글 데이터를 저장할 변수
+
+     let {id} = $props()
+     let comments: App.CommentDto[] = $state([]);
 
     async function fetchComments() {
         if (id) {
