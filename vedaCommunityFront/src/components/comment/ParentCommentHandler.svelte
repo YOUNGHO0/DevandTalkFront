@@ -7,12 +7,13 @@ import ChildCommentHandler from "./ChildCommentHandler.svelte";
 import ChildCommentWrite from "./ChildCommentWrite.svelte";
 
 let editMode :boolean =$state(false);
-let applyMode : boolean = $state(false);
 let {fetchComments,comment = $bindable()} : {fetchComments:()=> void, comment : App.CommentDto } = $props();
 
-let commentState = $state(comment)
-let childCommentList :App.CommentDto[]|null = comment.childCommentList
-
+let childCommentList :App.CommentDto[]|null = $state(comment.childCommentList);
+// childCommentList가 변경될 때마다 console.log를 출력
+$effect(()=>{
+   childCommentList = comment.childCommentList;
+})
 </script>
 
 <div>
@@ -23,17 +24,14 @@ let childCommentList :App.CommentDto[]|null = comment.childCommentList
 
 
     {:else}
-        <ParentComment bind:applyMode {fetchComments} {comment} bind:editMode></ParentComment>
+        <ParentComment {fetchComments} {comment} bind:editMode></ParentComment>
     {/if}
 
     {#if childCommentList !== null}
-        {#each childCommentList as childComment}
-            <ChildCommentHandler bind:applyMode {fetchComments} {childComment}></ChildCommentHandler>
+        {#each childCommentList as childComment , i}
+            <ChildCommentHandler  bind:fetchComments childComment={childCommentList[i]} parentId={comment.id}></ChildCommentHandler>
         {/each}
     {:else}
-    {/if}
-    {#if applyMode}
-        <ChildCommentWrite bind:applyMode id={comment.id} {fetchComments}></ChildCommentWrite>
     {/if}
 </div>
 
