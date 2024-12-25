@@ -51,7 +51,7 @@
         <div style="justify-content:center;align-items: center; display: flex">
             {#if comment.author != null}
             <h4 style=" padding-top: 0px; margin:0px">{comment.author.nickname}</h4>
-            <Button onclick={()=>{applyMode = true}} style="padding-bottom: 1px;"> 답글 </Button>
+            <Button onclick={()=>{applyMode = !applyMode}} style="padding-bottom: 1px;"> 답글 </Button>
             {/if}
 
 
