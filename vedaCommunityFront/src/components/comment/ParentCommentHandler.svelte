@@ -19,7 +19,7 @@ $effect(()=>{
 <div>
     {#if editMode}
         <div style="display:flex;">
-            <CommentEdit bind:fetchComments {comment} bind:editMode></CommentEdit>
+            <CommentEdit {fetchComments} {comment} bind:editMode></CommentEdit>
         </div>
 
 
@@ -29,7 +29,7 @@ $effect(()=>{
 
     {#if childCommentList !== null}
         {#each childCommentList as childComment , i}
-            <ChildCommentHandler  bind:fetchComments childComment={childCommentList[i]} parentId={comment.id}></ChildCommentHandler>
+            <ChildCommentHandler  {fetchComments} childComment={childCommentList[i]} parentId={comment.id}></ChildCommentHandler>
         {/each}
     {:else}
     {/if}

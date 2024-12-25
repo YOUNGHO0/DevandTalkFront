@@ -26,13 +26,16 @@
                 credentials: "include",  // 쿠키 포함
                 body: JSON.stringify(dto),  // request body에 데이터 추가 (JSON 형식)
             });
-
             // 응답 처리
+            console.log(apiResponse.text());
             if (!apiResponse.ok) {
                 throw new Error('Failed to create article');  // 요청 실패 시 오류 처리
             }
             if(apiResponse.status === 200){
-                fetchComments();
+                value = ""
+                editMode = false;
+                await fetchComments();
+
             }
         } catch (error) {
             console.error("Error creating article:", error);
