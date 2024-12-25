@@ -5,12 +5,9 @@
     import {userStatus} from "../../stores/user";
     let open = $state(false);
     import Dialog, { Title, Content, Actions } from '@smui/dialog';
-    let{applyMode= $bindable() ,fetchComments,comment,editMode = $bindable(false)} : {applyMode:boolean,fetchComments:()=>void,comment:App.CommentDto,editMode:boolean} = $props();
-
-    function flipApplyMode(){
-        applyMode = !applyMode;
-    }
-
+    import ChildCommentWrite from "./ChildCommentWrite.svelte";
+    let{ fetchComments,comment,editMode = $bindable(false)} : {fetchComments:()=>void,comment:App.CommentDto,editMode:boolean} = $props();
+    let applyMode:boolean = $state(false);
     async function deleteComment() {
         const apiUrl = import.meta.env.VITE_API_URL;  // 환경변수에서 API URL 불러오기
         try {
@@ -54,7 +51,7 @@
         <div style="justify-content:center;align-items: center; display: flex">
             {#if comment.author != null}
             <h4 style=" padding-top: 0px; margin:0px">{comment.author.nickname}</h4>
-            <Button onclick={flipApplyMode} style="padding-bottom: 1px;"> 답글 </Button>
+            <Button onclick={()=>{applyMode = true}} style="padding-bottom: 1px;"> 답글 </Button>
             {/if}
 
 
@@ -74,8 +71,11 @@
 
 
     </div>
-
 </div>
+
+{#if applyMode}
+    <ChildCommentWrite {fetchComments} bind:applyMode id={comment.id} ></ChildCommentWrite>
+{/if}
 
 
 <Dialog

@@ -3,10 +3,12 @@
     import {formatDateWithTime} from "../../utils/helper.js";
     import "../../utils/common.css"
     import Button, {Label} from "@smui/button";
-    let{applyMode=$bindable(),fetchComments,childComment,editMode = $bindable()} : {applyMode:boolean,fetchComments:()=>void,childComment:App.CommentDto,editMode:boolean} = $props();
+    let{parentId,fetchComments,childComment,editMode = $bindable()} : {parentId:number,fetchComments:()=>void,childComment:App.CommentDto,editMode:boolean} = $props();
     import {userStatus} from "../../stores/user";
+    let applyMode:boolean = $state(false);
     let open = $state(false);
     import Dialog, { Title, Content, Actions } from '@smui/dialog';
+    import ChildCommentWrite from "./ChildCommentWrite.svelte";
 
     async function deleteComment() {
         const apiUrl = import.meta.env.VITE_API_URL;  // 환경변수에서 API URL 불러오기
@@ -64,8 +66,10 @@
             </div>
         {/if}
     </div>
-
 </div>
+{#if applyMode}
+    <ChildCommentWrite id={parentId} {fetchComments} bind:applyMode></ChildCommentWrite>
+{/if}
 
 <Dialog
         bind:open
