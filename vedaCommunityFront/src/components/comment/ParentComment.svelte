@@ -46,7 +46,7 @@
     }
 </style>
 
-<div class="comment" style="padding:10px;">
+<div class="comment" style="padding:10px; margin-bottom: 2px">
     <div style="display: flex">
         <div style="justify-content:center;align-items: center; display: flex">
             {#if comment.author != null}
