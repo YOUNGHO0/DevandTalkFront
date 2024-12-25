@@ -8,9 +8,9 @@ declare global {
 
 		interface CommentDto {
 			id: number;
-			createdAt: string;
+			createdAt: string |null;
 			commentContent: string;
-			author: CommunityUserReadResponseDto;
+			author: CommunityUserReadResponseDto |null;
 			childCommentList: CommentDto[] | null;
 		}
 
@@ -74,6 +74,13 @@ declare global {
 		interface CommentUpdateDto {
 			commentId: number;
 			content : string;
+		}
+		interface ChildCommentUpdateDto{
+			parentId : number;
+			commentContent :string;
+		}
+		interface CommentDeleteDto {
+			commentId: number;
 		}
 	}
 }
