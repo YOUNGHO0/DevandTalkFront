@@ -13,6 +13,14 @@ declare global {
 			author: CommunityUserReadResponseDto |null;
 			childCommentList: CommentDto[] | null;
 		}
+		interface AnonCommentDto {
+			id: number;
+			createdAt: string |null;
+			commentContent: string;
+			author: boolean,
+			anonArticleAuthor:boolean,
+			childCommentList: AnonCommentDto[] | null;
+		}
 
 		interface Author {
 			nickname: string;
@@ -40,6 +48,13 @@ declare global {
 			author: Author;
 			createdDate: string;
 		}
+		interface Article {
+			id : number
+			title: string;
+			content: string;
+			createdDate: string;
+		}
+
 
 		interface ArticleResponse {
 			content: Article[];
@@ -54,7 +69,32 @@ declare global {
 			empty: boolean;
 		}
 
+		interface AnonArticleResponse {
+			content: AnonArticle[];
+			pageable: Pageable;
+			totalElements: number;
+			totalPages: number;
+			size: number;
+			number: number;
+			numberOfElements: number;
+			first: boolean;
+			last: boolean;
+			empty: boolean;
+		}
+
+		interface AnonArticle {
+			id : number
+			title: string;
+			content: string;
+			createdDate: string;
+			author:boolean;
+		}
+
 		interface ArticleCreateDto {
+			title: string;
+			content: string;
+		}
+		interface AnonArticleCreateDto {
 			title: string;
 			content: string;
 		}
@@ -63,10 +103,23 @@ declare global {
 			"title" : string,
 			"content" : string
 		}
+		interface AnonArticleUpdateDto {
+			"id" : number,
+			"title" : string,
+			"content" : string
+		}
 		interface ArticleDeleteDto {
 			"deleteId" : number;
 		}
+		interface AnonArticleDeleteDto {
+			"anonArticleId" : number;
+		}
 		interface CommentCreateDto {
+			"articleId": number
+			"commentContent": string
+
+		}
+		interface AnonCommentCreateDto {
 			"articleId": number
 			"commentContent": string
 
