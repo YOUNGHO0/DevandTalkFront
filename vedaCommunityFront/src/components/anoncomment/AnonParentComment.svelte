@@ -59,6 +59,7 @@
             <Button onclick={()=>{applyMode = !applyMode}} style="padding-bottom: 1px;"> 답글 </Button>
             {:else}
                 <h4 style=" padding-top: 0px; margin:0px">익명의 사용자</h4>
+                <Button onclick={()=>{applyMode = !applyMode}} style="padding-bottom: 1px;"> 답글 </Button>
             {/if}
 
 
