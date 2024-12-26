@@ -265,17 +265,16 @@
 
     <TopAppBar bind:this={topAppBar} variant="fixed">
         <Row class="top-app-bar-row">
-            <Section class="left-section">
-                <!-- 왼쪽 메뉴 아이콘 -->
-                <IconButton class="material-icons" onclick={() => (open = !open)}>menu</IconButton>
-            </Section>
-            <Section class="center-section">
-                <!-- 제목 -->
-                <div class="title">EmbeAndTalk</div>
-            </Section>
-            <Section class="right-section">
-                <!-- 오른쪽 섹션 비워두기 -->
-            </Section>
+            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                <div style="width: 100%; margin-right: auto;">
+                    <IconButton class="material-icons" onclick={() => (open = !open)}>menu</IconButton>
+                </div>
+                <div class="title" style="width: 100%">DevAndTalk</div>
+                <div style="width: 100%">
+
+                </div>
+            </div>
+
         </Row>
     </TopAppBar>>
     <AutoAdjust {topAppBar}>
