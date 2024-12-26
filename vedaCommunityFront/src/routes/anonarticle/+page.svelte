@@ -136,7 +136,6 @@
             <div onclick={() => navigateToAnonArticle(anonArticle.id)}  class="article" style="display: flex; padding: 12px">
                 <div style="font-size: 12px; justify-content: center; text-align: center">
                     {formatDate(anonArticle.createdDate)}
-                    {anonArticle.id}
                 </div>
                 <div
                         style="font-weight: bold; font-size: 12px; padding-left: 20px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 150px;"
