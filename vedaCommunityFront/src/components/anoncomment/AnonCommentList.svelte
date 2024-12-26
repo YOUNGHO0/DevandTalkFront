@@ -34,7 +34,7 @@
 </script>
 
 {#if id}
-    <div style="margin-left: 15px; margin-right: 15px">
+    <div style="margin-left: 15px; margin-right: 15px;">
         <h3 >댓글 </h3>
         {#if comments.length > 0}
             <div >
@@ -45,8 +45,12 @@
             </div>
         {:else}
         {/if}
+        <div style="margin-top: 20px">
+            <CommentWrite {id} fetchComments={()=>{fetchComments()}}></CommentWrite>
+        </div>
+
     </div>
-    <CommentWrite {id} fetchComments={()=>{fetchComments()}}></CommentWrite>
+
 {:else}
     <div>Loading...</div>
 {/if}
