@@ -53,6 +53,9 @@
             {#if comment.author != null}
             <h4 style=" padding-top: 0px; margin:0px">{comment.author.nickname}</h4>
             <Button onclick={()=>{applyMode = !applyMode}} style="padding-bottom: 1px;"> 답글 </Button>
+            {:else}
+                <h4 style=" padding-top: 0px; margin:0px">삭제된 댓글입니다.</h4>
+                <Button onclick={()=>{applyMode = !applyMode}} style="padding-bottom: 1px;"> 답글 </Button>
             {/if}
         </div>
         {#if comment.createdAt}
