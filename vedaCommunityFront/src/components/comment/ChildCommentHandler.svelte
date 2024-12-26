@@ -9,8 +9,5 @@
 
 </script>
 
-{#if editMode}
-    <CommentEdit bind:fetchComments comment = {childComment} bind:editMode></CommentEdit>
-    {:else }
-    <ChildComment {parentId} {fetchComments} {childComment} bind:editMode></ChildComment>
-    {/if}
+
+<ChildComment {parentId} {fetchComments} {childComment} bind:editMode></ChildComment>

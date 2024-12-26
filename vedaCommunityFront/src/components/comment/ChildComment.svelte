@@ -9,6 +9,7 @@
     let open = $state(false);
     import Dialog, { Title, Content, Actions } from '@smui/dialog';
     import ChildCommentWrite from "./ChildCommentWrite.svelte";
+    import CommentEdit from "./CommentEdit.svelte";
 
     async function deleteComment() {
         const apiUrl = import.meta.env.VITE_API_URL;  // 환경변수에서 API URL 불러오기
@@ -48,7 +49,7 @@
 </style>
 
 <div class="childComment" style="padding:10px; margin-left: 20px;">
-    <div style="display: flex">
+    <div style="justify-content:center;align-items: center; display: flex">
         {#if childComment.author}
             <h4 style=" padding-top: 0px; margin:0px">{childComment.author.nickname}</h4>
             <Button onclick={()=>{applyMode= !applyMode}} style="padding-bottom: 1px;"> 답글 </Button>
@@ -58,12 +59,16 @@
         {/if}
     </div>
     <div style="display: flex; padding-top: 10px; align-items: center;">
-        <div class="comment-content">{childComment.commentContent}</div>
-        {#if childComment.author &&  $userStatus.isLoggedIn && $userStatus.userNickname === childComment.author.nickname}
-            <div style="display: flex; align-items: center; margin-left: auto;justify-content: center">
-                <Button onclick={()=>{editMode= !editMode}} style="margin-left: auto" secondary> 수정 </Button>
-                <Button onclick={()=>{open = true;}} style="margin-left: auto" secondary> 삭제 </Button>
-            </div>
+        {#if editMode}
+            <CommentEdit {fetchComments} comment = {childComment} bind:editMode></CommentEdit>
+            {:else}
+            <div class="comment-content">{childComment.commentContent}</div>
+            {#if childComment.author &&  $userStatus.isLoggedIn && $userStatus.userNickname === childComment.author.nickname}
+                <div style="display: flex; align-items: center; margin-left: auto;justify-content: center">
+                    <Button onclick={()=>{editMode= !editMode}} style="margin-left: auto; color: black" secondary> 수정 </Button>
+                    <Button onclick={()=>{open = true;}} style="margin-left: auto; color: black" secondary> 삭제 </Button>
+                </div>
+            {/if}
         {/if}
     </div>
 </div>

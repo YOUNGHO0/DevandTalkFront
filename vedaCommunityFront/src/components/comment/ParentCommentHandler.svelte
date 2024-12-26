@@ -17,16 +17,7 @@ $effect(()=>{
 </script>
 
 <div>
-    {#if editMode}
-        <div style="display:flex;">
-            <CommentEdit {fetchComments} {comment} bind:editMode></CommentEdit>
-        </div>
-
-
-    {:else}
-        <ParentComment {fetchComments} {comment} bind:editMode></ParentComment>
-    {/if}
-
+    <ParentComment {fetchComments} {comment} bind:editMode></ParentComment>
     {#if childCommentList !== null}
         {#each childCommentList as childComment , i}
             <ChildCommentHandler  {fetchComments} childComment={childCommentList[i]} parentId={comment.id}></ChildCommentHandler>

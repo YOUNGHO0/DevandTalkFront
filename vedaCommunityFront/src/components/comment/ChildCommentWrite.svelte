@@ -47,6 +47,7 @@
     />
     <p style="margin-left: auto;width: 135px; display: flex; justify-content: space-between;">
         <Button onclick={()=>{sendEditComment(value)}} variant="raised">작성</Button>
+        <Button color="secondary"  onclick={()=>{applyMode = !applyMode}} variant="raised">취소</Button>
     </p>
 
 </div>

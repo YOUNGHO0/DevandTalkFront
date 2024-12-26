@@ -34,18 +34,21 @@
 
 {#if id}
     <div style="margin-left: 15px; margin-right: 15px">
-        <h3 >댓글 </h3>
-        {#if comments.length > 0}
-            <div >
+        <div style="margin-bottom: 15px">
+            <h3 >댓글 </h3>
+            {#if comments.length > 0}
+                <div >
 
-                {#each comments as comment}
-                    <ParentCommentHandler {fetchComments} {comment}></ParentCommentHandler>
-                {/each}
-            </div>
-        {:else}
-        {/if}
+                    {#each comments as comment}
+                        <ParentCommentHandler {fetchComments} {comment}></ParentCommentHandler>
+                    {/each}
+                </div>
+            {:else}
+            {/if}
+        </div>
+        <CommentWrite {id} fetchComments={()=>{fetchComments()}}></CommentWrite>
     </div>
-    <CommentWrite {id} fetchComments={()=>{fetchComments()}}></CommentWrite>
+
 {:else}
     <div>Loading...</div>
 {/if}

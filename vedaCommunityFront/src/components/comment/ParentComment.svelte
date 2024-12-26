@@ -6,6 +6,7 @@
     let open = $state(false);
     import Dialog, { Title, Content, Actions } from '@smui/dialog';
     import ChildCommentWrite from "./ChildCommentWrite.svelte";
+    import CommentEdit from "./CommentEdit.svelte";
     let{ fetchComments,comment,editMode = $bindable(false)} : {fetchComments:()=>void,comment:App.CommentDto,editMode:boolean} = $props();
     let applyMode:boolean = $state(false);
     async function deleteComment() {
@@ -53,28 +54,33 @@
             <h4 style=" padding-top: 0px; margin:0px">{comment.author.nickname}</h4>
             <Button onclick={()=>{applyMode = !applyMode}} style="padding-bottom: 1px;"> 답글 </Button>
             {/if}
-
-
         </div>
         {#if comment.createdAt}
         <div style="margin-left:auto " class="centered">{formatDateWithTime(comment.createdAt)}</div>
         {/if}
     </div>
     <div style="padding-top: 10px;display: flex; align-items: center">
-        <div class="comment-content" style=" margin-left: 0px;">{comment.commentContent}</div>
-        {#if comment.author &&  $userStatus.isLoggedIn && $userStatus.userNickname === comment.author.nickname}
-        <div style="display: flex; align-items: center; margin-left: auto;justify-content: center">
-            <Button onclick={()=>{editMode= !editMode}} style="margin-left: auto" secondary> 수정 </Button>
-            <Button onclick={()=>{open = true;}} style="margin-left: auto" secondary> 삭제 </Button>
-        </div>
+        {#if editMode}
+            <div style="display:flex;width: 100%;">
+                <CommentEdit {fetchComments} {comment} bind:editMode></CommentEdit>
+            </div>
+            {:else }
+            <div class="comment-content" style=" margin-left: 0px;">{comment.commentContent}</div>
+            {#if comment.author &&  $userStatus.isLoggedIn && $userStatus.userNickname === comment.author.nickname}
+                <div style="display: flex; align-items: center; margin-left: auto;justify-content: center">
+                    <Button onclick={()=>{editMode= !editMode}} style="margin-left: auto;color: black" secondary> 수정 </Button>
+                    <Button onclick={()=>{open = true;}} style="margin-left: auto;color: black" secondary> 삭제 </Button>
+                </div>
+            {/if}
         {/if}
-
 
     </div>
 </div>
 
 {#if applyMode}
-    <ChildCommentWrite {fetchComments} bind:applyMode id={comment.id} ></ChildCommentWrite>
+    <div style="margin-top: 12px">
+        <ChildCommentWrite {fetchComments} bind:applyMode id={comment.id} ></ChildCommentWrite>
+    </div>
 {/if}
 
 
