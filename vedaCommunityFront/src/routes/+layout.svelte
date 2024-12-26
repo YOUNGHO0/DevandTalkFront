@@ -283,7 +283,9 @@
     <Drawer class="drawerTotal" variant="modal" fixed={true} bind:open>
         <div class="nicknameWrapper">
             <h3 class="nickname">{$userStatus.userNickname}</h3>
+            {#if $userStatus.isLoggedIn}
             <Button  style="color: white; width: 30px; font-size: 10px" onclick={handleLogout} class="logout-button">로그아웃</Button>
+            {/if}
         </div>
 
         <Content>
