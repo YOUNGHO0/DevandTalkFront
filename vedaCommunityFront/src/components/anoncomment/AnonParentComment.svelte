@@ -87,7 +87,9 @@
 </div>
 
 {#if applyMode}
-    <ChildCommentWrite {fetchComments} bind:applyMode id={comment.id} ></ChildCommentWrite>
+    <div style="margin-top: 10px">
+        <ChildCommentWrite {fetchComments} bind:applyMode id={comment.id} ></ChildCommentWrite>
+    </div>
 {/if}
 
 

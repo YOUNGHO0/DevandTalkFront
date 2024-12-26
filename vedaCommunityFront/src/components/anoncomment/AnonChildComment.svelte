@@ -78,7 +78,9 @@
     </div>
 </div>
 {#if applyMode}
-    <ChildCommentWrite id={parentId} {fetchComments} bind:applyMode></ChildCommentWrite>
+    <div style="margin-top: 10px; margin-left: 20px;">
+        <ChildCommentWrite id={parentId} {fetchComments} bind:applyMode></ChildCommentWrite>
+    </div>
 {/if}
 
 <Dialog
