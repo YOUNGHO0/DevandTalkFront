@@ -46,7 +46,7 @@
                "
     />
     <p style="margin-left: auto;width: 135px; display: flex; justify-content: space-between;">
-        <Button onclick={()=>{sendEditComment(value)}} variant="raised">작성</Button>
+        <Button onclick={()=>{sendEditComment(value)}} variant="raised" style="margin-left: auto">작성</Button>
 
     </p>
 
