@@ -48,11 +48,11 @@ declare global {
 			author: Author;
 			createdDate: string;
 		}
-		interface Article {
-			id : number
-			title: string;
-			content: string;
-			createdDate: string;
+
+		interface MainArticle{
+			id: number;
+			createdDate: string,
+			title: string
 		}
 
 
