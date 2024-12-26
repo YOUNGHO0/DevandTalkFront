@@ -72,7 +72,6 @@
                 credentials: 'include', // 쿠키를 포함시켜 요청
             });
             if (apiResponse.status === 200) {
-                console.log('200 received');
                 let json = await apiResponse.json();
                 userStatus.set({ userNickname: json.nickname, isLoggedIn : true });
             } else if (apiResponse.status === 401) {
@@ -233,7 +232,7 @@
          height: calc(100% - 65px); /* 화면 전체 높이에서 TopAppBar 높이를 뺀 값 */
          z-index: 1200; /* TopAppBar보다 위에 표시 */
          overflow-y: auto; /* 내용이 넘칠 경우 스크롤 가능 */
-         width: 200px; /* Drawer의 너비 */
+         width: 250px; /* Drawer의 너비 */
          background-color: white; /* Drawer 배경 색상 */
      }
 
@@ -284,7 +283,7 @@
 
     <Drawer class="drawerTotal" variant="modal" fixed={true} bind:open>
         <div class="nicknameWrapper">
-            <h3 class="nickname">닉네임 위치</h3>
+            <h3 class="nickname">{$userStatus.userNickname}</h3>
             <Button  style="color: white; width: 30px; font-size: 10px" onclick={handleLogout} class="logout-button">로그아웃</Button>
         </div>
 
