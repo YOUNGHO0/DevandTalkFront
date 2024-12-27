@@ -15,13 +15,12 @@
 <div class="comment" style="width: 400px">
     <div style="display: flex; align-items: center; justify-content: center; padding: 10px">
         <h2 style="font-size: 20px; margin: 0px;      ">{title}</h2>
-        <Button style="margin-left: auto" variant="outlined">More</Button>
+        <Button href={`/${type}`} style="margin-left: auto" variant="outlined">More</Button>
     </div>
 
     <Separator></Separator>
     {#each dataList as data}
         <div onclick={()=>{goto(`/${type}/${data.id}`)}}  style="display: flex;justify-content: flex-start; padding: 10px;align-items: center;">
-            <div style="font-size: 15px;"> {formatDate(data.createdDate)} </div>
             <div style="font-size: 20px; margin-left: 20px"> {data.title} </div>
         </div>
         <Separator></Separator>
