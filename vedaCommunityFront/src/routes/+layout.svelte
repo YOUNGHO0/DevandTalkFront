@@ -63,6 +63,7 @@
 
     // 모든 페이지에서 실행할 로직
     async function checkUserStatus() {
+        console.log("유저상태 체크")
         try {
             const apiResponse = await fetch(`${apiUrl}/api/v1/user`, {
                 method: 'GET',
