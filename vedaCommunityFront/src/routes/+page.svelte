@@ -43,5 +43,5 @@
         style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
     <!-- CardLayout 컴포넌트를 2개 나란히 배치하며, 화면이 좁아지면 아래로 이동 -->
     <CardLayout type="article" title="자유게시판" dataList={articleData} style="flex: 1 1 300px;"/>
-    <CardLayout type="anonArticle" title="익명게시판" dataList={anonArticleData} style="flex: 1 1 300px;"/>
+    <CardLayout type="anonarticle" title="익명게시판" dataList={anonArticleData} style="flex: 1 1 300px;"/>
 </div>
