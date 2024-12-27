@@ -62,39 +62,69 @@
     const apiUrl = import.meta.env.VITE_API_URL;
 
     // 모든 페이지에서 실행할 로직
-    async function checkUserStatus() {
-        console.log("유저상태 체크")
+    const fetchWithTimeout = async (url, options = {}, timeout = 5000) => {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), timeout);
+
         try {
-            const apiResponse = await fetch(`${apiUrl}/api/v1/user`, {
+            const response = await fetch(url, {
+                ...options,
+                signal: controller.signal,
+            });
+            clearTimeout(timeoutId);
+            return response;
+        } catch (error) {
+            clearTimeout(timeoutId);
+            if (error.name === 'AbortError') {
+                throw new Error('Request timed out');
+            }
+            throw error;
+        }
+    };
+
+    async function checkUserStatus() {
+        console.log("유저 상태 체크");
+
+        try {
+            const apiResponse = await fetchWithTimeout(`${apiUrl}/api/v1/user`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                credentials: 'include', // 쿠키를 포함시켜 요청
-            });
-            console.log(apiResponse.status)
-            if (apiResponse.status === 200) {
-                let json = await apiResponse.json();
-                userStatus.set({ userNickname: json.nickname, isLoggedIn : true });
-            } else if (apiResponse.status === 401) {
-                console.log(window.location.pathname)
-                if (window.location.pathname !== '/login') {
-                    window.location.href = '/login';
-                    userStatus.set({ userNickname: null, isLoggedIn : false });
+                credentials: 'include',
+            }, 5000); // 타임아웃 5초 설정
+
+            console.log(`Response Status: ${apiResponse.status}`);
+
+            // 상태 코드에 따라 처리
+            switch (apiResponse.status) {
+                case 200: {
+                    const json = await apiResponse.json();
+                    userStatus.set({ userNickname: json.nickname, isLoggedIn: true });
+                    break;
                 }
-            } else if (apiResponse.status === 403) {
-                if (window.location.pathname !== '/temp') {
-                    window.location.href = '/temp';
-                    userStatus.set({ userNickname: null, isLoggedIn : false });
-                }
+                case 401:
+                    handleRedirection('/login');
+                    break;
+                case 403:
+                    handleRedirection('/temp');
+                    break;
+                default:
+                    handleRedirection('/serverError');
+                    break;
             }
         } catch (error) {
-            console.log('Error occurred:', error);
-            if (window.location.pathname !== '/serverError') {
-                window.location.href = '/serverError';
-            }
-
+            console.error('Error occurred:', error.message);
+            handleRedirection('/serverError');
         }
+    }
+
+    // 리다이렉션 및 상태 초기화를 처리하는 함수
+    function handleRedirection(targetPath) {
+        if (window.location.pathname !== targetPath) {
+            window.location.href = targetPath;
+        }
+        userStatus.set({ userNickname: null, isLoggedIn: false });
     }
 
     const handleLogout = async () => {
