@@ -72,6 +72,7 @@
                 },
                 credentials: 'include', // 쿠키를 포함시켜 요청
             });
+            console.log(apiResponse.status)
             if (apiResponse.status === 200) {
                 let json = await apiResponse.json();
                 userStatus.set({ userNickname: json.nickname, isLoggedIn : true });
