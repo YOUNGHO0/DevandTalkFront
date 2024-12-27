@@ -62,7 +62,7 @@
     const apiUrl = import.meta.env.VITE_API_URL;
 
     // 모든 페이지에서 실행할 로직
-    const fetchWithTimeout = async (url, options = {}, timeout = 5000) => {
+    const fetchWithTimeout = async (url:string, options = {}, timeout = 5000) => {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), timeout);
 
@@ -73,7 +73,7 @@
             });
             clearTimeout(timeoutId);
             return response;
-        } catch (error) {
+        } catch (error:any) {
             clearTimeout(timeoutId);
             if (error.name === 'AbortError') {
                 throw new Error('Request timed out');
@@ -113,14 +113,14 @@
                     handleRedirection('/serverError');
                     break;
             }
-        } catch (error) {
+        } catch (error:any) {
             console.error('Error occurred:', error.message);
             handleRedirection('/serverError');
         }
     }
 
     // 리다이렉션 및 상태 초기화를 처리하는 함수
-    function handleRedirection(targetPath) {
+    function handleRedirection(targetPath:string) {
         if (window.location.pathname !== targetPath) {
             window.location.href = targetPath;
         }
