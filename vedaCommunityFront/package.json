@@ -35,5 +35,8 @@
 		"dayjs": "^1.11.13",
 		"react-lorem-ipsum": "^1.4.10",
 		"svelte-material-ui": "^8.0.0-beta.2"
+	},
+	"engines": {
+		"node": "18.x"
 	}
 }
