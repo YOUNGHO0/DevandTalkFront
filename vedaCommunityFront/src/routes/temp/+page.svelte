@@ -21,6 +21,7 @@
                 window.location.href = "/login";  // 로그인 페이지로 리디렉션
             } else {
                 // 실패한 경우 처리
+                console.log( await apiResponse.text());
                 console.error("로그아웃 실패");
             }
         } catch (error) {
@@ -29,6 +30,8 @@
     };
 </script>
 
-<div> 현재 심사중입니다. </div>
-<Button onclick={handleLogout}> 로그아웃
-</Button>
+<div style="width: 300px; justify-content: center; align-items: center; margin-left: auto; margin-right: auto;">
+    <h2> 현재 심사중입니다. </h2>
+    <Button style="font-size: 24px; padding: 30px"  variant="raised" onclick={handleLogout}> 로그아웃 </Button>
+</div>
+
