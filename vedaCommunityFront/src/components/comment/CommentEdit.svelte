@@ -4,11 +4,13 @@
 
     let{fetchComments,comment,editMode = $bindable()} : {fetchComments:()=>void,comment:App.CommentDto,editMode:boolean} = $props();
     import { writable } from 'svelte/store';
-    import Button from "@smui/button";
+    import Button, {Label} from "@smui/button";
 
     // $state는 상태값 관리용 스토어
     let value = comment.commentContent // 부모로부터 전달받은 comment 값을 초기값으로 설정
-
+    import Dialog, { Title, Content, Actions } from '@smui/dialog';
+    let dialogOpen:boolean = $state(false);
+    let dialogMessage:string = $state("");
     function handleClick(event: MouseEvent) {
         editMode = !editMode;
     }
@@ -43,6 +45,16 @@
         }
 
     };
+
+    function validateAndSubmit(content: string) {
+        if (!content.trim()) {
+            dialogMessage = "내용을 입력해주세요.";
+            dialogOpen = true;
+            return;
+        }
+        // 필드가 유효하면 서버로 요청
+        sendEditComment();
+    }
 </script>
 
 <div style="width: 100%">
@@ -53,10 +65,23 @@
                "
     />
     <p style="margin-left: auto;width: 135px; display: flex; justify-content: space-between;">
-        <Button onclick={sendEditComment} variant="raised"> 수정 </Button>
+        <Button onclick={()=>{validateAndSubmit(value)}} variant="raised"> 수정 </Button>
         <Button color="secondary"  onclick={handleClick} variant="raised">취소</Button>
 
     </p>
 
 </div>
 
+
+<Dialog
+        bind:open={dialogOpen}
+        aria-labelledby="simple-title"
+        aria-describedby="simple-content">
+    <!-- Title cannot contain leading whitespace due to mdc-typography-baseline-top() -->
+    <Content id="simple-content">{dialogMessage}</Content>
+    <Actions>
+        <Button>
+            <Label>Yes</Label>
+        </Button>
+    </Actions>
+</Dialog>

@@ -11,13 +11,15 @@
     import {formatDateWithTime} from "../../utils/helper"
     import Button from "@smui/button";
     import {userStatus} from "../../stores/user";
-    export let response :App.AnonArticle
-    export let editMode:boolean;
+    let {response,editMode=$bindable()} :{response:App.AnonArticle,editMode:boolean} = $props();
     import Textfield from '@smui/textfield';
+    import StandardDialog from "../dialog/StandardDialog.svelte";
     let contentHeight = 0; // 글의 높이를 측정할 변수
     const minOffset = 100; // 최소 300px의 거리
     let editTitle:string = response.title;
     let editConent:string = response.content;
+    let dialogOpen:boolean = $state(false);
+    let dialogMessage:string = $state("");
     onMount(async ()=>{
 
         const contentElement = document.querySelector('.content');
@@ -29,15 +31,27 @@
     function flipEditMode(){
         editMode = !editMode;
     }
-    async function  updateArticle(id:bigint,title: string, content: string) {
+    async function  updateArticle(id:number,title: string, content: string) {
         const apiUrl = import.meta.env.VITE_API_URL;  // 환경변수에서 API URL 불러오기
 
         // 서버로 전송할 데이터
         const dto: App.AnonArticleUpdateDto = {
-            id: Number(id),
+            id: (id),
             title: title,
             content: content,
         };
+
+        if(!title.trim()){
+            dialogOpen = true;
+            dialogMessage ="제목을 입력해 주세요"
+            return;
+        }
+
+        if(!content.trim()){
+            dialogOpen = true;
+            dialogMessage = "내용을 입력해 주세요"
+            return;
+        }
 
         try {
             const apiResponse = await fetch(`${apiUrl}/api/v1/anonArticle`, {
@@ -78,7 +92,7 @@
         <Textfield style="width: 100%" variant="outlined" bind:value={editTitle}> </Textfield>
         <div style="display: flex; justify-content: center; align-items: center">
             <div style="display: flex; margin-right: auto; margin-top: 10px">
-                <div style=" margin-right: auto; font-size: 12px;">{response.author.nickname}</div>
+                <div style=" margin-right: auto; font-size: 12px;">익명의 사용자</div>
                 <div style="font-size: 12px; margin-left: 10px" >{formatDateWithTime(response.createdDate)}</div>
             </div>
         </div>
@@ -110,3 +124,6 @@
 {:else}
     <p>Loading</p>
 {/if}
+
+<StandardDialog bind:dialogMessage bind:dialogOpen onClose={()=>{}}></StandardDialog>
+

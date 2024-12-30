@@ -1,11 +1,13 @@
 <script lang="ts">
     import Textfield from '@smui/textfield';
-    import Button from "@smui/button";
+    import Button, {Label} from "@smui/button";
 
     let { applyMode = $bindable(), id, fetchComments }: { applyMode:boolean, id: number, fetchComments: () => void } = $props();
 
     let value :string = $state("") // 부모로부터 전달받은 comment 값을 초기값으로 설정
-
+    import Dialog, { Title, Content, Actions } from '@smui/dialog';
+    let dialogOpen:boolean = $state(false);
+    let dialogMessage:string = $state("");
 
     async function sendEditComment(content:string){
         const apiUrl = import.meta.env.VITE_API_URL;  // 환경변수에서 API URL 불러오기
@@ -36,6 +38,17 @@
             throw error;  // 오류 발생 시 처리
         }
     };
+
+    // 유효성 검사 및 다이얼로그 활성화
+    function validateAndSubmit(content: string) {
+        if (!content.trim()) {
+            dialogMessage = "내용을 입력해주세요.";
+            dialogOpen = true;
+            return;
+        }
+        // 필드가 유효하면 서버로 요청
+        sendEditComment(content);
+    }
 </script>
 
 <div style="width: 100%">
@@ -46,9 +59,21 @@
                "
     />
     <p style="margin-left: auto;width: 135px; display: flex; justify-content: space-between;">
-        <Button onclick={()=>{sendEditComment(value)}} variant="raised">작성</Button>
+        <Button onclick={()=>{validateAndSubmit(value)}} variant="raised">작성</Button>
         <Button color="secondary"  onclick={()=>{applyMode = !applyMode}} variant="raised">취소</Button>
     </p>
-
 </div>
 
+
+<Dialog
+        bind:open={dialogOpen}
+        aria-labelledby="simple-title"
+        aria-describedby="simple-content">
+    <!-- Title cannot contain leading whitespace due to mdc-typography-baseline-top() -->
+    <Content id="simple-content">{dialogMessage}</Content>
+    <Actions>
+        <Button>
+            <Label>Yes</Label>
+        </Button>
+    </Actions>
+</Dialog>

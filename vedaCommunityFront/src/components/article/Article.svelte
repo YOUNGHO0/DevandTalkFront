@@ -42,6 +42,7 @@
             });
 
             // 응답 처리
+
             if (!apiResponse.ok) {
                 throw new Error('Failed to create article');  // 요청 실패 시 오류 처리
             }

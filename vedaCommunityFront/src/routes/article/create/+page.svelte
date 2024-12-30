@@ -3,9 +3,11 @@
 <script lang="ts">
     import {Separator} from '@smui/list';
 
-
+    import Dialog, { Title, Content, Actions } from '@smui/dialog';
+    let dialogOpen = $state(false); // 다이얼로그 상태
+    let dialogMessage = $state(""); // 다이얼로그 메시지
     // `data` 객체를 통해 `load` 함수에서 전달된 데이터를 가져옴
-    import Button from "@smui/button";
+    import Button, {Label} from "@smui/button";
     import Textfield from '@smui/textfield';
 
 
@@ -46,6 +48,23 @@
         }
     }
 
+    // 유효성 검사 및 다이얼로그 활성화
+    function validateAndSubmit(editTitle: string, editConent: string) {
+        if (!editTitle.trim()) {
+            dialogMessage = "제목을 입력해주세요.";
+            dialogOpen = true;
+            return;
+        }
+
+        if (!editConent.trim()) {
+            dialogMessage = "내용을 입력해주세요.";
+            dialogOpen = true;
+            return;
+        }
+        // 필드가 유효하면 서버로 요청
+        createArticle(editTitle, editConent);
+    }
+
 </script>
 
 <style>
@@ -75,8 +94,22 @@
                     class="separator-wrapper"
             >
             </div>
-            <Button  style="display:flex;margin-top: 10px; width: 75px; margin-left: auto;" onclick={()=>{createArticle(editTitle,editConent)}} variant="raised"> 글쓰기 </Button>
+            <Button  style="display:flex;margin-top: 10px; width: 75px; margin-left: auto;" onclick={()=>{validateAndSubmit(editTitle,editConent)}} variant="raised"> 글쓰기 </Button>
         </div>
 
 
     </div>
+
+
+    <Dialog
+        bind:open={dialogOpen}
+        aria-labelledby="simple-title"
+        aria-describedby="simple-content">
+    <!-- Title cannot contain leading whitespace due to mdc-typography-baseline-top() -->
+    <Content id="simple-content">{dialogMessage}</Content>
+    <Actions>
+        <Button>
+            <Label>Yes</Label>
+        </Button>
+    </Actions>
+</Dialog>

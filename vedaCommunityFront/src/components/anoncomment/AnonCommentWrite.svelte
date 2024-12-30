@@ -1,14 +1,23 @@
 <script lang="ts">
     import Textfield from '@smui/textfield';
     import Button from "@smui/button";
+    import StandardDialog from "../dialog/StandardDialog.svelte";
 
     let { id, fetchComments }: { id: number, fetchComments: () => void } = $props();
 
     let value :string = $state("") // 부모로부터 전달받은 comment 값을 초기값으로 설정
 
-
+    let dialogOpen:boolean = $state(false);
+    let dialogMessage:string = $state("");
     async function sendEditComment(content:string){
         const apiUrl = import.meta.env.VITE_API_URL;  // 환경변수에서 API URL 불러오기
+
+        if(!content.trim()){
+            dialogMessage = "내용을 입력해 주세요"
+            dialogOpen = true;
+            return;
+        }
+
         try {
             console.log(id + " " + content)
             const dto : App.AnonCommentCreateDto = {articleId:id, commentContent:content}
@@ -51,4 +60,6 @@
     </p>
 
 </div>
+
+<StandardDialog bind:dialogOpen bind:dialogMessage onClose={()=>{}}></StandardDialog>
 

@@ -7,8 +7,10 @@
     // `data` 객체를 통해 `load` 함수에서 전달된 데이터를 가져옴
     import Button from "@smui/button";
     import Textfield from '@smui/textfield';
+    import StandardDialog from "../../../components/dialog/StandardDialog.svelte";
 
-
+    let dialogOpen:boolean = $state(false);
+    let dialogMessage:string = $state("");
     let contentHeight = 0; // 글의 높이를 측정할 변수
     const minOffset = 100; // 최소 300px의 거리
     let editTitle:string = "";
@@ -17,6 +19,16 @@
     async function  createArticle(title: string, content: string) {
         const apiUrl = import.meta.env.VITE_API_URL;  // 환경변수에서 API URL 불러오기
 
+        if(!title.trim()){
+            dialogMessage = "제목을 입력해 주세요"
+            dialogOpen = true;
+            return;
+        }
+        if(!content.trim()){
+            dialogOpen = true;
+            dialogMessage = "내용을 입력해 주세요"
+            return;
+        }
         // 서버로 전송할 데이터
         const dto: App.AnonArticleCreateDto = {
             title: title,
@@ -80,3 +92,5 @@
 
 
     </div>
+
+    <StandardDialog bind:dialogOpen bind:dialogMessage onClose={()=>{}} />

@@ -5,19 +5,22 @@
     import CommentList from "../../components/comment/CommentList.svelte"
 
 
-
+    import Dialog, { Title, Content, Actions } from '@smui/dialog';
+    let dialogOpen:boolean = $state(false);
+    let dialogMessage:string = $state("");
     // `data` 객체를 통해 `load` 함수에서 전달된 데이터를 가져옴
     import {onMount} from "svelte";
     import {formatDateWithTime} from "../../utils/helper"
-    import Button from "@smui/button";
+    import Button, {Label} from "@smui/button";
     import {userStatus} from "../../stores/user";
-    export let response :App.Article
-    export let editMode:boolean;
+    let {response, editMode = $bindable()} :{response: App.Article, editMode: boolean} = $props();
+
     import Textfield from '@smui/textfield';
     let contentHeight = 0; // 글의 높이를 측정할 변수
     const minOffset = 100; // 최소 300px의 거리
     let editTitle:string = response.title;
     let editConent:string = response.content;
+
     onMount(async ()=>{
 
         const contentElement = document.querySelector('.content');
@@ -29,12 +32,12 @@
     function flipEditMode(){
         editMode = !editMode;
     }
-    async function  updateArticle(id:bigint,title: string, content: string) {
+    async function  updateArticle(id:number,title: string, content: string) {
         const apiUrl = import.meta.env.VITE_API_URL;  // 환경변수에서 API URL 불러오기
 
         // 서버로 전송할 데이터
         const dto: App.ArticleUpdateDto = {
-            id: Number(id),
+            id: id,
             title: title,
             content: content,
         };
@@ -61,6 +64,9 @@
             throw error;  // 오류 발생 시 처리
         }
     }
+
+
+
 </script>
 
 <style>
@@ -99,7 +105,7 @@
             </div>
         </div>
         <p style="margin-left: auto;width: 135px; display: flex; justify-content: space-between;">
-            <Button onclick={()=>{updateArticle(response.id,editTitle,editConent)}} variant="raised"> 수정 </Button>
+            <Button onclick={()=>{validateAndSubmit(response.id,editTitle,editConent)}} variant="raised"> 수정 </Button>
             <Button color="secondary"  onclick={()=>{editMode = !editMode}} variant="raised">취소</Button>
 
         </p>
@@ -110,3 +116,18 @@
 {:else}
     <p>Loading</p>
 {/if}
+
+
+
+<Dialog
+        bind:open={dialogOpen}
+        aria-labelledby="simple-title"
+        aria-describedby="simple-content">
+    <!-- Title cannot contain leading whitespace due to mdc-typography-baseline-top() -->
+    <Content id="simple-content">{dialogMessage}</Content>
+    <Actions>
+        <Button>
+            <Label>Yes</Label>
+        </Button>
+    </Actions>
+</Dialog>

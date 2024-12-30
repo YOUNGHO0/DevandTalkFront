@@ -5,16 +5,22 @@
     let{fetchComments,comment,editMode = $bindable()} : {fetchComments:()=>void,comment:App.AnonCommentDto,editMode:boolean} = $props();
     import { writable } from 'svelte/store';
     import Button from "@smui/button";
+    import StandardDialog from "../dialog/StandardDialog.svelte";
 
     // $state는 상태값 관리용 스토어
     let value = comment.commentContent // 부모로부터 전달받은 comment 값을 초기값으로 설정
-
+    let dialogOpen:boolean = $state(false);
+    let dialogMessage:string = $state("");
     function handleClick(event: MouseEvent) {
         editMode = !editMode;
     }
     async function sendEditComment(){
 
-
+        if(!value.trim()){
+            dialogMessage = "내용을 입력해 주세요"
+            dialogOpen = true;
+            return;
+        }
         const apiUrl = import.meta.env.VITE_API_URL;  // 환경변수에서 API URL 불러오기
         try {
             const dto : App.CommentUpdateDto = {commentId:comment.id, content:value};
@@ -59,4 +65,6 @@
     </p>
 
 </div>
+
+<StandardDialog bind:dialogOpen bind:dialogMessage onClose={()=>{}}></StandardDialog>
 
