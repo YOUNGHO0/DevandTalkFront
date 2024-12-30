@@ -10,6 +10,7 @@
      import UpdateAnonArticle from "../../../components/anonArticle/UpdateAnonArticle.svelte";
      import AnonArticle from "../../../components/anonArticle/AnonArticle.svelte";
      import AnonCommentList from "../../../components/anoncomment/AnonCommentList.svelte";
+     import {goto} from "$app/navigation";
      const apiUrl = import.meta.env.VITE_API_URL;
      let response: App.AnonArticle;
      let editMode: boolean = false;
@@ -22,6 +23,9 @@
              },
              credentials: "include", // 쿠키를 포함시켜 요청
          });
+         if(apiResponse.status === 204 || apiResponse.status === 404 || apiResponse.status === 500){
+             goto("/noarticle")
+         }
          response = await apiResponse.json();
      })
 

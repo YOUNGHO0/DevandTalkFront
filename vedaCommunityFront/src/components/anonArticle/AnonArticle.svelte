@@ -49,9 +49,6 @@
                 console.log(await apiResponse.text())
                 window.history.back();
             }
-            if(apiResponse.status === 204 || apiResponse.status === 404 || apiResponse.status === 500){
-                goto("/noarticle")
-            }
         } catch (error) {
             console.error("Error creating article:", error);
             throw error;  // 오류 발생 시 처리
