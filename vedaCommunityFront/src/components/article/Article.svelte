@@ -4,7 +4,7 @@
     import List, { Item, Text, Graphic, Separator, Subheader } from '@smui/list';
     import CommentList from "../../components/comment/CommentList.svelte"
     // 예시
-
+    import {goto} from "$app/navigation";
     import Dialog, { Title, Content, Actions } from '@smui/dialog';
     let { editMode = $bindable(false), response }: { editMode: boolean, response: App.Article } = $props();
     // `data` 객체를 통해 `load` 함수에서 전달된 데이터를 가져옴
@@ -49,6 +49,9 @@
             if(apiResponse.status === 200){
                 console.log(await apiResponse.text())
                 window.history.back();
+            }
+            if(apiResponse.status === 204 || apiResponse.status === 404 || apiResponse.status === 500){
+                goto("/noarticle")
             }
         } catch (error) {
             console.error("Error creating article:", error);
