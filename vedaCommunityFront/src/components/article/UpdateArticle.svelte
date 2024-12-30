@@ -16,6 +16,7 @@
     let {response, editMode = $bindable()} :{response: App.Article, editMode: boolean} = $props();
 
     import Textfield from '@smui/textfield';
+    import StandardDialog from "../dialog/StandardDialog.svelte";
     let contentHeight = 0; // 글의 높이를 측정할 변수
     const minOffset = 100; // 최소 300px의 거리
     let editTitle:string = response.title;
@@ -41,6 +42,18 @@
             title: title,
             content: content,
         };
+
+        if(!title.trim()){
+            dialogOpen =true;
+            dialogMessage ="제목을 입력해 주세요"
+            return;
+        }
+
+        if(!content.trim()){
+            dialogOpen = true;
+            dialogMessage = "내용을 입력해 주세요"
+            return;
+        }
 
         try {
             const apiResponse = await fetch(`${apiUrl}/api/v1/article`, {
@@ -118,16 +131,4 @@
 {/if}
 
 
-
-<Dialog
-        bind:open={dialogOpen}
-        aria-labelledby="simple-title"
-        aria-describedby="simple-content">
-    <!-- Title cannot contain leading whitespace due to mdc-typography-baseline-top() -->
-    <Content id="simple-content">{dialogMessage}</Content>
-    <Actions>
-        <Button>
-            <Label>Yes</Label>
-        </Button>
-    </Actions>
-</Dialog>
+<StandardDialog bind:dialogOpen bind:dialogMessage onClose={()=>{}}></StandardDialog>
