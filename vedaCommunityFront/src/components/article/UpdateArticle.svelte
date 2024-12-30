@@ -118,7 +118,7 @@
             </div>
         </div>
         <p style="margin-left: auto;width: 135px; display: flex; justify-content: space-between;">
-            <Button onclick={()=>{validateAndSubmit(response.id,editTitle,editConent)}} variant="raised"> 수정 </Button>
+            <Button onclick={()=>{updateArticle(response.id,editTitle,editConent)}} variant="raised"> 수정 </Button>
             <Button color="secondary"  onclick={()=>{editMode = !editMode}} variant="raised">취소</Button>
 
         </p>
