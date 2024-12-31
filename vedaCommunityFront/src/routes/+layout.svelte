@@ -305,10 +305,10 @@
 
 
 
-
-
-
-
+    <head>
+        <meta name="color-scheme" content="light only"/>
+        <meta name="supported-color-schemes" content="light"/>
+    </head>
 
 
 
