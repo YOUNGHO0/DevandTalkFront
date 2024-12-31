@@ -85,7 +85,7 @@
         <Separator />
         <div class="content-wrapper">
             <div class="content">
-                <h4 style="font-weight: normal">{response.content}</h4>
+                <h4 class="article-content" style="font-weight: normal">{response.content}</h4>
             </div>
 
             <div
