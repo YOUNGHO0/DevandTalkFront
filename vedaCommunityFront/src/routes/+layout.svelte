@@ -329,7 +329,7 @@
     </Drawer>
 
 
-    <div>
+    <div style="margin-top: 10px;">
       {@render children()}
     </div>
   
