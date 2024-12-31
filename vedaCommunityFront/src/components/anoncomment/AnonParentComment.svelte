@@ -8,6 +8,7 @@
     import ChildCommentWrite from "./AnonChildCommentWrite.svelte";
     import Chip, { Set, Text } from '@smui/chips';
     import AnonCommentEdit from "./AnonCommentEdit.svelte";
+    import Paper from "@smui/paper";
     let{ fetchComments,comment,editMode = $bindable(false)} : {fetchComments:()=>void,comment:App.AnonCommentDto,editMode:boolean} = $props();
     let applyMode:boolean = $state(false);
     async function deleteComment() {
@@ -48,7 +49,7 @@
     }
 </style>
 
-<div class="comment" style="padding:10px; margin-bottom: 2px">
+<Paper square style="padding:10px; margin-bottom: 2px; margin-top: 20px;">
     <div style="display: flex">
         <div style="justify-content:center;align-items: center; display: flex; padding-left: 5px">
 
@@ -75,8 +76,8 @@
             <div class="comment-content" style=" margin-left: 0px; padding-left: 10px">{comment.commentContent}</div>
             {#if comment.author}
                 <div style="display: flex; align-items: center; margin-left: auto;justify-content: center">
-                    <Button onclick={()=>{editMode= !editMode}} style="margin-left: auto; color: black" secondary> 수정 </Button>
-                    <Button onclick={()=>{open = true;}} style="margin-left: auto; color:black" secondary> 삭제 </Button>
+                    <Button onclick={()=>{editMode= !editMode}} style="margin-left: auto;" secondary> 수정 </Button>
+                    <Button onclick={()=>{open = true;}} style="margin-left: auto;" secondary> 삭제 </Button>
                 </div>
             {/if}
         {/if}
@@ -84,7 +85,7 @@
 
 
     </div>
-</div>
+</Paper>
 
 {#if applyMode}
     <div style="margin-top: 10px">

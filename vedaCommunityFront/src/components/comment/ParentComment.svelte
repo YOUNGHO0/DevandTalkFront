@@ -7,6 +7,7 @@
     import Dialog, { Title, Content, Actions } from '@smui/dialog';
     import ChildCommentWrite from "./ChildCommentWrite.svelte";
     import CommentEdit from "./CommentEdit.svelte";
+    import Paper from "@smui/paper";
     let{ fetchComments,comment,editMode = $bindable(false)} : {fetchComments:()=>void,comment:App.CommentDto,editMode:boolean} = $props();
     let applyMode:boolean = $state(false);
     async function deleteComment() {
@@ -47,7 +48,7 @@
     }
 </style>
 
-<div class="comment" style="padding:10px; margin-bottom: 2px">
+<Paper square style="padding:10px; margin-bottom: 2px; margin-top: 20px;">
     <div style="display: flex">
         <div style="justify-content:center;align-items: center; display: flex">
             {#if comment.author != null}
@@ -71,14 +72,14 @@
             <div class="comment-content" style=" margin-left: 0px;">{comment.commentContent}</div>
             {#if comment.author &&  $userStatus.isLoggedIn && $userStatus.userNickname === comment.author.nickname}
                 <div style="display: flex; align-items: center; margin-left: auto;justify-content: center">
-                    <Button onclick={()=>{editMode= !editMode}} style="margin-left: auto;color: black" secondary> 수정 </Button>
-                    <Button onclick={()=>{open = true;}} style="margin-left: auto;color: black" secondary> 삭제 </Button>
+                    <Button onclick={()=>{editMode= !editMode}} style="margin-left: auto;" secondary> 수정 </Button>
+                    <Button onclick={()=>{open = true;}} style="margin-left: auto;" secondary> 삭제 </Button>
                 </div>
             {/if}
         {/if}
 
     </div>
-</div>
+</Paper>
 
 {#if applyMode}
     <div style="margin-top: 12px">

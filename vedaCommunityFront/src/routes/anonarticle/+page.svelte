@@ -3,6 +3,7 @@
     import { goto } from '$app/navigation'; // SvelteKit의 goto 함수 사용
     import {formatDate} from "../../utils/helper"
     import Button from "@smui/button";
+    import Paper from "@smui/paper";
     const apiUrl = import.meta.env.VITE_API_URL;
 
 
@@ -133,7 +134,9 @@
             <Button href="anonarticle/create" color="secondary" variant="raised" style="font-weight: bold ;font-size: 12px; width: 70px; display: flex; margin-left: auto">글쓰기</Button>
         </div>
         {#each anonArticles.content as anonArticle}
-            <div onclick={() => navigateToAnonArticle(anonArticle.id)}  class="article" style="display: flex; padding: 12px">
+            <Paper square onclick={() => navigateToAnonArticle(anonArticle.id)}  class="article" style="display: flex; padding: 12px; margin-top: 5px">
+
+
                 <div style="font-size: 12px; justify-content: center; text-align: center">
                     {formatDate(anonArticle.createdDate)}
                 </div>
@@ -145,35 +148,38 @@
                 <div style="margin-left: auto; font-size: 11px">
                  익명의 사용자
                 </div>
-            </div>
+            </Paper>
         {/each}
 
-        <Button href="anonarticle/create" variant="raised" style="width: 80px; display: flex; margin-left: auto">글쓰기</Button>
 
         <!-- 페이지네이션 -->
-        <div class="pagination">
-            <button
-                    onclick={() => (startPage > 0 ? goToPage(startPage - 1) : null)}
-                    disabled={startPage === 0}
-            >
-                이전
-            </button>
-            {#each Array(5).fill(0) as _, index (startPage + index)}
-                {#if startPage + index < anonArticles.totalPages}
-                    <button
-                            onclick={() => goToPage(startPage + index)}
-                            class={startPage + index === currentPage ? "active" : ""}
-                    >
-                        {startPage + index + 1}
-                    </button>
-                {/if}
-            {/each}
-            <button
-                    onclick={() => (startPage + 5 < anonArticles.totalPages ? goToPage(startPage + 5) : null)}
-                    disabled={startPage + 5 >= anonArticles.totalPages}
-            >
-                다음
-            </button>
+        <div class="pagination" style="justify-content: center; align-items: center; display: flex; margin: 0px">
+            <div style="margin-left: auto;">
+
+                <button
+                        onclick={() => (startPage > 0 ? goToPage(startPage - 1) : null)}
+                        disabled={startPage === 0}
+                >
+                    이전
+                </button>
+                {#each Array(5).fill(0) as _, index (startPage + index)}
+                    {#if startPage + index < anonArticles.totalPages}
+                        <button
+                                onclick={() => goToPage(startPage + index)}
+                                class={startPage + index === currentPage ? "active" : ""}
+                        >
+                            {startPage + index + 1}
+                        </button>
+                    {/if}
+                {/each}
+                <button
+                        onclick={() => (startPage + 5 < anonArticles.totalPages ? goToPage(startPage + 5) : null)}
+                        disabled={startPage + 5 >= anonArticles.totalPages}
+                >
+                    다음
+                </button>
+            </div>
+            <Button href="anonarticle/create" variant="raised" style="width: 80px; display: flex; margin-left: auto">글쓰기</Button>
         </div>
 
     </div>

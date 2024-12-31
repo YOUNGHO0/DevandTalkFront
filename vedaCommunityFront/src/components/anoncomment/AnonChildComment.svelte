@@ -11,6 +11,7 @@
     import Dialog, { Title, Content, Actions } from '@smui/dialog';
     import ChildCommentWrite from "./AnonChildCommentWrite.svelte";
     import AnonCommentEdit from "./AnonCommentEdit.svelte";
+    import Paper from "@smui/paper";
 
     async function deleteComment() {
         const apiUrl = import.meta.env.VITE_API_URL;  // 환경변수에서 API URL 불러오기
@@ -49,7 +50,7 @@
     }
 </style>
 
-<div class="childComment" style="padding:10px; margin-left: 20px;">
+<Paper style="padding:10px; margin-left: 20px; margin-top: 2px;">
     <div style="justify-content:center;align-items: center; display: flex">
         {#if childComment.anonArticleAuthor}
             <Chip color="secondary" style="background-color: #ff3e00; color: white; opacity: 0.8;" >
@@ -70,13 +71,13 @@
             <div class="comment-content">{childComment.commentContent}</div>
             {#if childComment.author}
                 <div style="display: flex; align-items: center; margin-left: auto;justify-content: center">
-                    <Button onclick={()=>{editMode= !editMode}} style="margin-left: auto; color: black" secondary> 수정 </Button>
-                    <Button onclick={()=>{open = true;}} style="margin-left: auto; color: black" secondary> 삭제 </Button>
+                    <Button onclick={()=>{editMode= !editMode}} style="margin-left: auto;" secondary> 수정 </Button>
+                    <Button onclick={()=>{open = true;}} style="margin-left: auto;" secondary> 삭제 </Button>
                 </div>
             {/if}
         {/if}
     </div>
-</div>
+</Paper>
 {#if applyMode}
     <div style="margin-top: 10px; margin-left: 20px;">
         <ChildCommentWrite id={parentId} {fetchComments} bind:applyMode></ChildCommentWrite>

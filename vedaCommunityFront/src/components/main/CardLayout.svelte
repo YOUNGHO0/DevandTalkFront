@@ -8,11 +8,11 @@
     import {goto} from "$app/navigation";
     import Button from "@smui/button";
     const apiUrl = import.meta.env.VITE_API_URL;
-
+    import Paper, { Title, Content } from '@smui/paper';
 </script>
 
 
-<div class="comment" style="width: 400px">
+<Paper variant="unelevated" style="width: 400px">
     <div style="display: flex; align-items: center; justify-content: center; padding: 10px">
         <h2 style="font-size: 20px; margin: 0px;      ">{title}</h2>
         <Button href={`/${type}`} style="margin-left: auto" variant="outlined">More</Button>
@@ -27,4 +27,4 @@
 
     {/each}
 
-</div>
+</Paper>

@@ -254,7 +254,6 @@
          z-index: 1200; /* 다른 요소 위에 표시 */
          overflow-y: auto; /* 내용이 많을 경우 스크롤 가능 */
          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* 약간의 그림자 추가 */
-         background-color: white; /* Drawer 배경 색상 */
      }
 
      :global(.drawerTotal) {
@@ -265,7 +264,6 @@
          z-index: 1200; /* TopAppBar보다 위에 표시 */
          overflow-y: auto; /* 내용이 넘칠 경우 스크롤 가능 */
          width: 250px; /* Drawer의 너비 */
-         background-color: white; /* Drawer 배경 색상 */
      }
 
      :global(.mdc-drawer__header) {
@@ -308,7 +306,7 @@
             </div>
 
         </Row>
-    </TopAppBar>>
+    </TopAppBar>
     <AutoAdjust {topAppBar}>
     </AutoAdjust>
 

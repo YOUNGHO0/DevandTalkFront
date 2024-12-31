@@ -3,6 +3,7 @@
     import { goto } from '$app/navigation'; // SvelteKit의 goto 함수 사용
     import {formatDate} from "../../utils/helper"
     import Button from "@smui/button";
+    import Paper, { Title, Subtitle, Content } from '@smui/paper';
     const apiUrl = import.meta.env.VITE_API_URL;
 
 
@@ -133,7 +134,9 @@
             <Button href="article/create" color="secondary" variant="raised" style="font-weight: bold ;font-size: 12px; width: 70px; display: flex; margin-left: auto">글쓰기</Button>
         </div>
         {#each articles.content as article}
-            <div onclick={() => navigateToArticle(article.id)}  class="article" style="display: flex; padding: 12px">
+           <Paper square onclick={() => navigateToArticle(article.id)}  class="article" style="display: flex; padding: 12px; margin-top: 5px">
+
+
                 <div style="font-size: 12px; justify-content: center; text-align: center">
                     {formatDate(article.createdDate)}
                 </div>
@@ -145,13 +148,16 @@
                 <div style="margin-left: auto; font-size: 11px">
                     {article.author.vedaOrder}기 {article.author.nickname}
                 </div>
-            </div>
+           </Paper>
         {/each}
 
-        <Button href="article/create" variant="raised" style="width: 80px; display: flex; margin-left: auto">글쓰기</Button>
+
 
         <!-- 페이지네이션 -->
-        <div class="pagination">
+        <div class="pagination" style="justify-content: center; align-items: center; display: flex">
+           <div style="margin-left: auto">
+
+
             <button
                     onclick={() => (startPage > 0 ? goToPage(startPage - 1) : null)}
                     disabled={startPage === 0}
@@ -174,6 +180,8 @@
             >
                 다음
             </button>
+           </div>
+            <Button href="article/create" variant="raised" style="width: 80px; display: flex; margin-left: auto">글쓰기</Button>
         </div>
 
     </div>
