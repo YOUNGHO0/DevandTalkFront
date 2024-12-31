@@ -159,7 +159,7 @@
 
    </script>
    
-   <style>
+   <style global>
      /* These classes are only needed because the
        drawer is in a container on the page. */
      :global(.mdc-top-app-bar) {
@@ -279,6 +279,23 @@
          background-color: #ff3e00;
          padding: 15px;
          color: white;
+     }
+
+     :global(root){
+         color-scheme: light only;
+     }
+     @media (prefers-color-scheme: dark) {
+         html, body {
+             background-color: white;
+             color: black;
+         }
+     }
+
+     @media (prefers-color-scheme: light) {
+         html, body {
+             background-color: white;
+             color: black;
+         }
      }
 
    </style>
