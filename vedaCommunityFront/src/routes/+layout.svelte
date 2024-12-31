@@ -299,7 +299,7 @@
                 <div style="width: 100%; margin-right: auto;">
                     <IconButton class="material-icons" onclick={() => (open = !open)}>menu</IconButton>
                 </div>
-                <div class="title" style="width: 100%; text-align: center">DevAndTalk</div>
+                <div class="title" style="width: 100%; font-weight: bold; text-align: center">DevAndTalk</div>
                 <div style="width: 100%">
 
                 </div>
