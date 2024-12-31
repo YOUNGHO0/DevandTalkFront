@@ -82,7 +82,7 @@
         gap: 5px; /* 버튼 간격 */
         flex-wrap: nowrap; /* 줄바꿈 방지 */
         overflow-x: auto; /* 버튼이 많을 경우 가로 스크롤 허용 */
-        padding: 10px; /* 컨테이너 안쪽 여백 */
+        padding-top: 10px; /* 컨테이너 안쪽 여백 */
     }
 
     button {
@@ -151,14 +151,14 @@
             </Paper>
         {/each}
 
-
+        <Button href="anonarticle/create" variant="raised" style="width: 80px; display: flex; margin-left: auto; margin-top: 10px ">글쓰기</Button>
         <!-- 페이지네이션 -->
-        <div class="pagination" style="justify-content: center; align-items: center; display: flex; margin: 0px">
-            <div style="margin-left: auto;">
-
+        <div class="pagination" style="width:300px;justify-content: center; align-items: center; display: flex; margin-left: auto; margin-right: auto; ">
+            <div  style="display: flex; margin-left: auto;margin-right: auto;">
                 <button
                         onclick={() => (startPage > 0 ? goToPage(startPage - 1) : null)}
                         disabled={startPage === 0}
+                        style="margin-right: 1px;"
                 >
                     이전
                 </button>
@@ -167,6 +167,7 @@
                         <button
                                 onclick={() => goToPage(startPage + index)}
                                 class={startPage + index === currentPage ? "active" : ""}
+                                style="margin-right: 1px; margin-left: 1px;"
                         >
                             {startPage + index + 1}
                         </button>
@@ -175,11 +176,12 @@
                 <button
                         onclick={() => (startPage + 5 < anonArticles.totalPages ? goToPage(startPage + 5) : null)}
                         disabled={startPage + 5 >= anonArticles.totalPages}
+                        style="margin-left: 1px;"
                 >
                     다음
                 </button>
             </div>
-            <Button href="anonarticle/create" variant="raised" style="width: 80px; display: flex; margin-left: auto">글쓰기</Button>
+
         </div>
 
     </div>
