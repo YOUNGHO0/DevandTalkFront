@@ -70,7 +70,7 @@
     }
 </style>
 
-    <div style="margin-left: 15px; margin-right: 15px" >
+    <div style="margin-left: 15px; margin-right: 15px; margin: 10px; " >
         <h2 style="margin-top: 0px;">게시글 작성</h2>
         <Textfield style="width: 100%" variant="outlined" label="제목" bind:value={editTitle}> </Textfield>
         <div class="content-wrapper">
